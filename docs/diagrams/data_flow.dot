@@ -1,0 +1,94 @@
+digraph G {
+    rankdir=LR;
+    node [shape=box, style=rounded, fontname="Arial"];
+    edge [fontname="Arial"];
+
+    # Data Sources
+    subgraph cluster_sources {
+        label="Data Sources";
+        style=dashed;
+        color=blue;
+        
+        aws [label="AWS API"];
+        azure [label="Azure API"];
+        gcp [label="GCP API"];
+        market [label="Market Data\nFeeds"];
+    }
+
+    # Data Ingestion
+    subgraph cluster_ingestion {
+        label="Data Ingestion";
+        style=dashed;
+        color=green;
+        
+        collector [label="Data Collector"];
+        validator [label="Data Validator"];
+        transformer [label="Data Transformer"];
+    }
+
+    # Processing
+    subgraph cluster_processing {
+        label="Processing";
+        style=dashed;
+        color=orange;
+        
+        analyzer [label="Data Analyzer"];
+        aggregator [label="Data Aggregator"];
+        ml_processor [label="ML Processor"];
+    }
+
+    # Storage
+    subgraph cluster_storage {
+        label="Storage";
+        style=dashed;
+        color=red;
+        
+        raw_storage [label="Raw Data\nStorage"];
+        processed_storage [label="Processed Data\nStorage"];
+        cache [label="Cache Layer"];
+    }
+
+    # Visualization
+    subgraph cluster_visualization {
+        label="Visualization";
+        style=dashed;
+        color=purple;
+        
+        metrics_viz [label="Metrics\nVisualizations"];
+        trends_viz [label="Trends\nVisualizations"];
+        alerts_viz [label="Alerts\nDashboard"];
+    }
+
+    # Data Flow
+    aws -> collector;
+    azure -> collector;
+    gcp -> collector;
+    market -> collector;
+
+    collector -> validator;
+    validator -> transformer;
+    transformer -> raw_storage;
+    
+    raw_storage -> analyzer;
+    analyzer -> aggregator;
+    aggregator -> ml_processor;
+    
+    ml_processor -> processed_storage;
+    processed_storage -> cache;
+    
+    cache -> metrics_viz;
+    cache -> trends_viz;
+    cache -> alerts_viz;
+
+    # Add data flow labels
+    edge [fontsize=10];
+    collector -> validator [label="Raw Data"];
+    validator -> transformer [label="Validated\nData"];
+    transformer -> raw_storage [label="Transformed\nData"];
+    raw_storage -> analyzer [label="Structured\nData"];
+    analyzer -> aggregator [label="Analyzed\nData"];
+    aggregator -> ml_processor [label="Aggregated\nData"];
+    ml_processor -> processed_storage [label="Processed\nResults"];
+    processed_storage -> cache [label="Cached\nResults"];
+    cache -> metrics_viz [label="Visualization\nData"];
+}

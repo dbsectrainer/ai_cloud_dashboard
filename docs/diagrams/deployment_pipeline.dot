@@ -1,0 +1,99 @@
+digraph G {
+    rankdir=LR;
+    node [shape=box, style=rounded, fontname="Arial"];
+    edge [fontname="Arial"];
+
+    subgraph cluster_development {
+        label="Development";
+        style=dashed;
+        color=blue;
+        
+        dev [label="Local\nDevelopment"];
+        feature [label="Feature\nBranch"];
+        tests_local [label="Local\nTests"];
+    }
+
+    subgraph cluster_ci {
+        label="Continuous Integration";
+        style=dashed;
+        color=green;
+        
+        github [label="GitHub\nRepository"];
+        actions [label="GitHub\nActions"];
+        
+        subgraph cluster_tests {
+            label="Automated Tests";
+            style=dotted;
+            
+            unit [label="Unit\nTests"];
+            integration [label="Integration\nTests"];
+            e2e [label="E2E\nTests"];
+            security [label="Security\nScans"];
+        }
+    }
+
+    subgraph cluster_cd {
+        label="Continuous Deployment";
+        style=dashed;
+        color=orange;
+        
+        staging [label="Staging\nEnvironment"];
+        prod [label="Production\nEnvironment"];
+        monitoring [label="Monitoring &\nAlerts"];
+    }
+
+    subgraph cluster_quality {
+        label="Quality Gates";
+        style=dashed;
+        color=red;
+        
+        code_review [label="Code\nReview"];
+        coverage [label="Test\nCoverage"];
+        security_check [label="Security\nCheck"];
+        performance [label="Performance\nCheck"];
+    }
+
+    # Development Flow
+    dev -> feature;
+    feature -> tests_local;
+    tests_local -> github;
+
+    # CI Flow
+    github -> actions;
+    actions -> unit;
+    actions -> integration;
+    actions -> e2e;
+    actions -> security;
+
+    # Quality Gates
+    unit -> code_review;
+    integration -> code_review;
+    e2e -> code_review;
+    security -> security_check;
+    
+    code_review -> coverage;
+    coverage -> performance;
+    security_check -> performance;
+
+    # CD Flow
+    performance -> staging;
+    staging -> prod;
+    prod -> monitoring;
+
+    # Add process labels
+    edge [fontsize=10];
+    dev -> feature [label="Create"];
+    feature -> tests_local [label="Run Tests"];
+    tests_local -> github [label="Push"];
+    github -> actions [label="Trigger"];
+    actions -> unit [label="Run"];
+    unit -> code_review [label="Pass"];
+    code_review -> coverage [label="Approve"];
+    performance -> staging [label="Deploy"];
+    staging -> prod [label="Promote"];
+    prod -> monitoring [label="Monitor"];
+
+    # Add status feedback
+    edge [color=red, style=dashed];
+    monitoring -> dev [label="Feedback Loop"];
+}

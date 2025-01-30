@@ -1,0 +1,63 @@
+digraph G {
+    rankdir=TB;
+    node [shape=box, style=rounded, fontname="Arial"];
+    edge [fontname="Arial"];
+
+    subgraph cluster_frontend {
+        label="Frontend Layer";
+        style=dashed;
+        color=blue;
+        
+        streamlit [label="Streamlit Interface"];
+        components [label="UI Components"];
+        visualizations [label="Visualizations\n(Plotly)"];
+        
+        streamlit -> components;
+        components -> visualizations;
+    }
+
+    subgraph cluster_processing {
+        label="Data Processing Layer";
+        style=dashed;
+        color=green;
+        
+        market_data [label="Market Data"];
+        compliance_data [label="Compliance Data"];
+        performance_data [label="Performance Data"];
+        metrics [label="Metrics Processing"];
+        
+        market_data -> metrics;
+        compliance_data -> metrics;
+        performance_data -> metrics;
+    }
+
+    subgraph cluster_storage {
+        label="Storage Layer";
+        style=dashed;
+        color=red;
+        
+        cache [label="Cache"];
+        database [label="Database"];
+    }
+
+    subgraph cluster_external {
+        label="External Services";
+        style=dashed;
+        color=purple;
+        
+        cloud_apis [label="Cloud Provider APIs"];
+        market_apis [label="Market Data APIs"];
+        security_apis [label="Security Services"];
+    }
+
+    # Inter-cluster connections
+    cloud_apis -> market_data;
+    market_apis -> market_data;
+    security_apis -> compliance_data;
+    
+    metrics -> cache;
+    cache -> database;
+    
+    metrics -> visualizations;
+    database -> components;
+}

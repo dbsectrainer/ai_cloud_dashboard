@@ -1,0 +1,92 @@
+digraph G {
+    rankdir=TB;
+    compound=true;
+    node [shape=box, style=rounded, fontname="Arial"];
+    edge [fontname="Arial"];
+
+    subgraph cluster_ui {
+        label="UI Layer";
+        style=dashed;
+        color=blue;
+        
+        dashboard [label="Main Dashboard"];
+        market_intel [label="Market\nIntelligence"];
+        security_comp [label="Security &\nCompliance"];
+        cost_analysis [label="Cost\nAnalysis"];
+        perf_metrics [label="Performance\nMetrics"];
+        strategic [label="Strategic\nTools"];
+    }
+
+    subgraph cluster_components {
+        label="Component Layer";
+        style=dashed;
+        color=green;
+        
+        metrics [label="Metrics\nComponent"];
+        decision [label="Decision\nHelper"];
+        platform [label="Platform\nComparisons"];
+        learning [label="Learning\nResources"];
+        trends [label="Future\nTrends"];
+    }
+
+    subgraph cluster_data {
+        label="Data Layer";
+        style=dashed;
+        color=orange;
+        
+        market_data [label="Market\nData"];
+        compliance_data [label="Compliance\nData"];
+        performance_data [label="Performance\nData"];
+    }
+
+    subgraph cluster_utils {
+        label="Utilities";
+        style=dashed;
+        color=purple;
+        
+        helpers [label="Helper\nUtilities"];
+        plots [label="Plot\nUtilities"];
+    }
+
+    # UI to Component Interactions
+    edge [color=blue];
+    dashboard -> metrics [lhead=cluster_components];
+    market_intel -> platform;
+    security_comp -> compliance_data;
+    cost_analysis -> market_data;
+    perf_metrics -> performance_data;
+    strategic -> decision;
+
+    # Component to Data Interactions
+    edge [color=green];
+    metrics -> market_data;
+    metrics -> compliance_data;
+    metrics -> performance_data;
+    platform -> market_data;
+    decision -> market_data;
+    trends -> market_data;
+
+    # Utility Interactions
+    edge [color=purple];
+    helpers -> metrics;
+    helpers -> platform;
+    helpers -> decision;
+    plots -> metrics;
+    plots -> platform;
+    plots -> trends;
+
+    # Component Dependencies
+    edge [color=red, style=dashed];
+    platform -> metrics;
+    decision -> metrics;
+    trends -> platform;
+    learning -> decision;
+
+    # Add interaction labels
+    edge [fontsize=10];
+    dashboard -> metrics [label="Updates"];
+    metrics -> market_data [label="Queries"];
+    platform -> market_data [label="Analysis"];
+    helpers -> metrics [label="Support"];
+    plots -> platform [label="Visualization"];
+}
