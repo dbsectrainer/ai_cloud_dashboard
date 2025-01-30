@@ -184,12 +184,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Maintainers
 
-- [Your Name](https://github.com/dbsectrainer)
+- [Donnivis Baker](https://github.com/dbsectrainer)
 
 ## 📬 Contact
 
-- GitHub: [@yourusername](https://github.com/dbsectrainer)
-- LinkedIn: [Your LinkedIn](https://www.linkedin.com/in/donnivis-baker-cissp-pmp/)
+- GitHub: [@dbsectrainer](https://github.com/dbsectrainer)
+- LinkedIn: [donnivis-baker-cissp-pmp](https://www.linkedin.com/in/donnivis-baker-cissp-pmp/)
 
 
 ---
