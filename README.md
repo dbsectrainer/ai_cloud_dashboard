@@ -182,14 +182,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Top Rated Dashboard on Streamlit Gallery
 - Enterprise Architecture Excellence Award
 
-## 👥 Maintainers
+## 👤 Author & Maintainer
 
-- [Donnivis Baker](https://github.com/dbsectrainer)
-
-## 📬 Contact
-
-- GitHub: [@dbsectrainer](https://github.com/dbsectrainer)
-- LinkedIn: [donnivis-baker-cissp-pmp](https://www.linkedin.com/in/donnivis-baker-cissp-pmp/)
+This repository is maintained by [Donnivis Baker](https://github.com/dbsectrainer). For questions or feedback, please open an issue or reach out directly.
 
 
 ---

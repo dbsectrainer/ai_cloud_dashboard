@@ -16,7 +16,7 @@ def get_market_share_data():
 
 def get_growth_trends_data():
     """Get historical growth trend data."""
-    dates = pd.date_range(start='2023-01-01', end='2024-12-31', freq='ME')
+    dates = pd.date_range(start='2023-01-01', end='2024-12-31', freq='M')
     return pd.DataFrame({
         'Date': dates,
         'North America': np.cumsum(np.random.normal(1, 0.2, len(dates))),
