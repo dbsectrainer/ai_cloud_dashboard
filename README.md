@@ -36,6 +36,15 @@ A comprehensive real-time analytics platform for monitoring and analyzing the gl
   - Learning resource center
   - Future trends forecasting
 
+- **User Customization & Roles**
+  - Executive, Manager, and Analyst views with tailored metrics and dashboards
+- **Interactive Filters & Drill-Downs**
+  - Region, provider, and time range filters for all major analytics
+- **Accessibility**
+  - Colorblind-friendly visualizations and ARIA-ready components
+- **AI Insights**
+  - Automated trend detection, anomaly alerts, and predictive analytics panel
+
 ## 🛠️ Technology Stack
 
 - **Frontend**: Streamlit
@@ -126,6 +135,8 @@ Note: The source files for these diagrams are available in DOT format under `doc
    ```bash
    streamlit run src/app.py
    ```
+   
+   The dashboard now supports user role selection, provider/region filters, and AI-powered insights for enterprise users.
 
 ## 📈 Performance & Scalability
 

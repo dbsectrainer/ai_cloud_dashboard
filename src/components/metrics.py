@@ -43,6 +43,14 @@ def display_sidebar_navigation():
         default=["North America", "Europe", "Asia Pacific"]
     )
     
+    # Provider filter for drill-down
+    provider_options = ["All Providers", "AWS", "Azure", "Google Cloud", "IBM Cloud", "Oracle Cloud"]
+    selected_provider = st.sidebar.selectbox(
+        "Provider",
+        provider_options,
+        index=0
+    )
+    
     time_range = st.sidebar.select_slider(
         "Time Range",
         options=["1M", "3M", "6M", "1Y", "2Y", "5Y"],
@@ -53,4 +61,4 @@ def display_sidebar_navigation():
     st.sidebar.markdown("---")
     st.sidebar.markdown(f"🔄 Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    return page, selected_regions, time_range
+    return page, selected_regions, time_range, selected_provider
