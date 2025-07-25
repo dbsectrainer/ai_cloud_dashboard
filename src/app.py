@@ -75,19 +75,23 @@ def main():
     # Home Page
     if page == "Home":
         st.title("🌐 Global AI & Cloud Intelligence Dashboard")
-        
-        # Display key metrics (role-based)
+        key_metrics = get_key_metrics(user_role)
+        regional_metrics = get_regional_metrics(user_role)
+        display_key_metrics(key_metrics["data"])
+        display_regional_metrics(regional_metrics["data"])
+        # Show role-based insights
         if user_role == "Executive":
-            display_key_metrics(get_key_metrics())
-            st.info("Executive View: High-level KPIs and strategic insights.")
+            st.info(key_metrics.get("kpi_summary", ""))
+            st.success(get_market_share_data(user_role).get("top_opportunity", ""))
+            st.warning(get_market_share_data(user_role).get("key_risk", ""))
         elif user_role == "Manager":
-            display_key_metrics(get_key_metrics())
-            display_regional_metrics(get_regional_metrics())
-            st.info("Manager View: Regional and operational metrics.")
+            st.info(key_metrics.get("kpi_alert", ""))
+            st.info(get_market_share_data(user_role).get("regional_alert", ""))
+            st.write("**Provider Comparison:**", get_market_share_data(user_role).get("provider_comparison", {}))
         elif user_role == "Analyst":
-            display_key_metrics(get_key_metrics())
-            display_regional_metrics(get_regional_metrics())
-            st.info("Analyst View: All available metrics and detailed data.")
+            st.info(key_metrics.get("advanced_insights", ""))
+            st.write(get_market_share_data(user_role).get("advanced_insights", ""))
+            st.download_button("Download Market Data (CSV)", get_market_share_data(user_role).get("raw_data_export", ""), file_name="market_data.csv")
         
         st.markdown("""
         ## Strategic Intelligence Platform for Government & Enterprise
@@ -110,7 +114,9 @@ def main():
         
         # Example: Trend detection on market growth
         try:
-            growth_data = get_growth_trends_data()
+            growth_trends = get_growth_trends_data(user_role)
+            growth_data = growth_trends["data"]
+            st.caption(growth_trends.get("trend_summary", ""))
             # Simple trend: compare last and first value
             if len(growth_data) > 1:
                 first = growth_data.iloc[0][1:].mean()
@@ -118,7 +124,8 @@ def main():
                 trend = "increasing" if last > first else "decreasing"
                 st.write(f"**Market growth trend:** {trend.title()} ({first:.2f}% → {last:.2f}%)")
             # Anomaly detection (simple: large jump)
-            diffs = growth_data.iloc[-5:][1:].diff().abs().mean().mean()
+            numeric_growth_data = growth_data.select_dtypes(include=[np.number])
+            diffs = numeric_growth_data.iloc[-5:].diff().abs().mean().mean()
             if diffs > 5:
                 st.warning(f"Significant recent volatility detected in market growth (avg. change: {diffs:.2f}%)")
         except Exception as e:
@@ -127,27 +134,37 @@ def main():
     # Market Intelligence Page
     elif page == "Market Intelligence":
         st.title("📊 Global Market Intelligence")
-        
         tab1, tab2, tab3 = st.tabs(["Market Share", "Growth Trends", "Regional Analysis"])
-        
         # Get and filter data based on selections
-        market_data = filter_data_by_regions(get_market_share_data(), selected_regions)
-        growth_data = get_growth_trends_data()
-        
+        market_data_dict = get_market_share_data(user_role)
+        market_data = filter_data_by_regions(market_data_dict["data"], selected_regions)
+        growth_data_dict = get_growth_trends_data(user_role)
+        growth_data = growth_data_dict["data"]
         # Provider drill-down
         if selected_provider != "All Providers":
-            market_data = [d for d in market_data if d.get("provider") == selected_provider]
-            growth_data = [d for d in growth_data if d.get("provider") == selected_provider]
-        
+            market_data = market_data[market_data["Provider"] == selected_provider]
+            growth_data = growth_data  # (implement provider filter if needed)
         with tab1:
             st.plotly_chart(create_market_share_treemap(market_data), use_container_width=True)
-        
+            # Show role-based insights
+            if user_role == "Executive":
+                st.success(market_data_dict.get("top_opportunity", ""))
+                st.warning(market_data_dict.get("key_risk", ""))
+            elif user_role == "Manager":
+                st.info(market_data_dict.get("regional_alert", ""))
+                st.write("**Provider Comparison:**", market_data_dict.get("provider_comparison", {}))
+            elif user_role == "Analyst":
+                st.write(market_data_dict.get("advanced_insights", ""))
+                st.download_button("Download Market Data (CSV)", market_data_dict.get("raw_data_export", ""), file_name="market_data.csv")
         with tab2:
             st.plotly_chart(create_growth_trends_line(growth_data), use_container_width=True)
-        
+            st.caption(growth_data_dict.get("trend_summary", ""))
+            if user_role == "Analyst":
+                st.write(growth_data_dict.get("advanced_insights", ""))
+                st.download_button("Download Growth Data (CSV)", growth_data_dict.get("raw_data_export", ""), file_name="growth_data.csv")
         with tab3:
             if user_role in ["Manager", "Analyst"]:
-                display_regional_metrics(get_regional_metrics())
+                display_regional_metrics(get_regional_metrics(user_role)["data"])
             st.plotly_chart(create_provider_comparison_radar(market_data), use_container_width=True)
 
     # Security & Compliance Page
@@ -215,23 +232,30 @@ def main():
     # Performance Metrics Page
     elif page == "Performance Metrics":
         st.title("⚡ Performance Metrics Dashboard")
-        
-        # Get performance data
         performance_data = get_performance_metrics()
         sla_data = get_sla_comparisons()
-        
         # Performance Overview
         st.plotly_chart(create_performance_radar(performance_data), use_container_width=True)
-        
-        # Latency Analysis
-        if user_role in ["Manager", "Analyst"]:
+        # Role-based insights and advanced analytics
+        if user_role == "Executive":
+            top_perf = performance_data.loc[performance_data['Uptime (%)'].idxmax()]
+            st.success(f"Top Performer: {top_perf['Provider']} (Uptime: {top_perf['Uptime (%)']}%)")
+            st.info("Executive View: Focus on uptime and reliability KPIs.")
+        elif user_role == "Manager":
             st.subheader("Global Latency Analysis")
             st.plotly_chart(create_latency_heatmap(performance_data), use_container_width=True)
-        
-        # SLA Comparison
-        if user_role == "Analyst":
+            slowest = performance_data.loc[performance_data['Latency (ms)'].idxmax()]
+            st.warning(f"Latency Alert: {slowest['Provider']} highest latency ({slowest['Latency (ms)']} ms)")
+            st.info("Manager View: Monitor latency and regional performance.")
+        elif user_role == "Analyst":
+            st.subheader("Global Latency Analysis")
+            st.plotly_chart(create_latency_heatmap(performance_data), use_container_width=True)
             st.subheader("Service Level Agreements")
             st.plotly_chart(create_sla_comparison(sla_data), use_container_width=True)
+            st.write("Advanced Analytics: Outlier Detection")
+            outlier = performance_data.loc[performance_data['Latency (ms)'].idxmax()]
+            st.write(f"Provider with highest latency: {outlier['Provider']} ({outlier['Latency (ms)']} ms)")
+            st.download_button("Download Performance Data (CSV)", performance_data.to_csv(index=False), file_name="performance_data.csv")
 
     # Decision Helper Page
     elif page == "Decision Helper":

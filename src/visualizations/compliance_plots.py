@@ -14,7 +14,9 @@ def create_compliance_heatmap(compliance_data):
     fig = px.imshow(
         numeric_data.set_index("Requirement")[["US Providers", "EU Providers", "China Providers"]],
         color_continuous_scale=["red", "yellow", "green"],
-        title="Compliance Requirements Coverage"
+        title="Compliance Requirements Coverage",
+        labels={"color": "Compliance Level"},
+        meta={"aria-label": "Heatmap showing compliance requirements coverage for US, EU, and China cloud providers in 2025."}
     )
     
     # Add text annotations
@@ -130,3 +132,8 @@ def create_certification_timeline(security_data):
     )
     
     return fig
+
+# In app.py or component, after displaying the chart:
+# st.plotly_chart(fig, use_container_width=True)
+# st.download_button("Download Chart as PNG", fig.to_image(format="png"), file_name="compliance_coverage_2025.png")
+# st.download_button("Download Data as CSV", compliance_data.to_csv(index=False), file_name="compliance_coverage_2025.csv")

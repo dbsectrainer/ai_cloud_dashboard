@@ -76,26 +76,26 @@ Asian Providers
 
 Technology Trends
 
-Growth Projections (2024-2028)
+Growth Projections (2025-2029)
 
 The forecast period signals a significant transformation in both AI and cloud technologies:
 
 AI Market
-	•	2024: $150B
-	•	2028: $580B
-	•	CAGR: 31%
+	•	2025: $220B
+	•	2029: $750B
+	•	CAGR: 36%
 This growth is powered by advances in machine learning algorithms, natural language processing, and deep learning applications across sectors such as healthcare, finance, and retail.
 
 Cloud Market
-	•	2024: $500B
-	•	2028: $1.4T
+	•	2025: $650B
+	•	2029: $1.8T
 	•	CAGR: 29%
 Enterprise migration to cloud-based solutions, coupled with the expansion of SaaS and hybrid cloud models, underpins this growth trajectory.
 
 Edge Computing
-	•	2024: $50B
-	•	2028: $380B
-	•	CAGR: 50%
+	•	2025: $85B
+	•	2029: $600B
+	•	CAGR: 48%
 The rapid expansion of edge computing is driven by the increasing need for real-time data processing, especially in IoT, smart cities, and autonomous systems.
 
 Emerging Technologies

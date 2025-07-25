@@ -31,7 +31,8 @@ def create_performance_radar(performance_data):
     fig.update_layout(
         polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
         showlegend=True,
-        title="Performance Metrics by Provider"
+        title="Performance Metrics by Provider",
+        meta={"aria-label": "Radar chart showing performance metrics by provider for 2025."}
     )
     
     return fig

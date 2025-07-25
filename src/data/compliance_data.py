@@ -32,11 +32,11 @@ def get_security_certifications():
         ],
         "Risk Score": [95, 94, 93, 85, 84],
         "Last Audit": [
-            datetime(2024, 1, 15),
-            datetime(2024, 1, 10),
-            datetime(2024, 1, 5),
-            datetime(2023, 12, 20),
-            datetime(2023, 12, 15)
+            datetime(2025, 1, 15),
+            datetime(2025, 1, 10),
+            datetime(2025, 1, 5),
+            datetime(2024, 12, 20),
+            datetime(2024, 12, 15)
         ]
     })
 

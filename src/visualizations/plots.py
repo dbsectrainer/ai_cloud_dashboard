@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import numpy as np
 
 def create_market_share_treemap(market_data):
-    """Create treemap visualization for market share data (colorblind-friendly)."""
+    """Create treemap visualization for market share data (colorblind-friendly, accessible)."""
     # Add total market size for better visualization
     total_market = market_data['Market Share (%)'].sum()
     
@@ -22,7 +22,7 @@ def create_market_share_treemap(market_data):
         color="YoY Growth (%)",
         color_continuous_scale="Viridis",
         custom_data=["Hover_Text"],
-        title="Global Cloud Market Share and Growth (2024)"
+        title="Global Cloud Market Share and Growth (2025)"
     )
     
     # Update hover template to show custom hover text
@@ -36,9 +36,14 @@ def create_market_share_treemap(market_data):
         coloraxis_colorbar_title="YoY Growth (%)",
         # Accessibility: Add ARIA label for screen readers (Streamlit will render as HTML)
         title={
-            'text': "Global Cloud Market Share and Growth (2024)",
+            'text': "Global Cloud Market Share and Growth (2025)",
             'font': {'size': 20},
-        }
+        },
+        meta={"aria-label": "Treemap showing global cloud market share and YoY growth by provider and region for 2025."}
+    )
+    fig.update_traces(
+        customdata=market_data["Hover_Text"],
+        hovertemplate="<b>%{label}</b><br>%{customdata}<extra></extra>"
     )
     
     return fig
@@ -97,3 +102,8 @@ def create_provider_comparison_radar(market_data):
     )
     
     return fig
+
+# In app.py or component, after displaying the chart:
+# st.plotly_chart(fig, use_container_width=True)
+# st.download_button("Download Chart as PNG", fig.to_image(format="png"), file_name="market_share_2025.png")
+# st.download_button("Download Data as CSV", market_data.to_csv(index=False), file_name="market_share_2025.csv")

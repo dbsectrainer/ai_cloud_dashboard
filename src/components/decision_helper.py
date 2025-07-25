@@ -192,3 +192,17 @@ def display_decision_helper():
     
     for consideration in considerations:
         st.markdown(consideration)
+
+def display_recommendation_results(scores):
+    """Display recommendation results with tooltips for clarity."""
+    st.subheader("Provider Recommendation Scores")
+    tooltips = {
+        "US Providers": "Best for advanced AI, compliance, and global reach.",
+        "EU Providers": "Best for GDPR, data sovereignty, and privacy.",
+        "China Providers": "Best for cost efficiency and Asia-Pacific expansion."
+    }
+    cols = st.columns(len(scores))
+    for col, (provider, score) in zip(cols, scores.items()):
+        with col:
+            st.metric(label=provider, value=int(score))
+            st.caption(tooltips.get(provider, ""))
