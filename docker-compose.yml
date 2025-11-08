@@ -1,0 +1,145 @@
+version: "3.9"
+
+services:
+  # Main Streamlit application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - DATA_DIR=/app/data/warehouse
+      - CACHE_DIR=/app/data/cache
+      - OTEL_ENDPOINT=http://otel-collector:4318
+      - DATABASE_URL=postgresql://dashboard:dashboard@postgres:5432/clouddb
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - PROMETHEUS_URL=http://prometheus:9090
+    env_file:
+      - .env
+    volumes:
+      - ./data/warehouse:/app/data/warehouse
+      - ./data/cache:/app/data/cache
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - dashboard-net
+
+  # PostgreSQL for metadata and analytics storage
+  postgres:
+    image: postgres:15-alpine
+    container_name: cloud-dashboard-db
+    environment:
+      - POSTGRES_DB=clouddb
+      - POSTGRES_USER=dashboard
+      - POSTGRES_PASSWORD=dashboard
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dashboard -d clouddb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - dashboard-net
+
+  # MinIO for object storage (cached data, exports)
+  minio:
+    image: minio/minio:latest
+    container_name: cloud-dashboard-storage
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - dashboard-net
+
+  # OpenTelemetry Collector for observability
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: cloud-dashboard-otel
+    command: ["--config=/etc/otel-collector.yaml"]
+    volumes:
+      - ./otel-collector.yaml:/etc/otel-collector.yaml
+    ports:
+      - "4317:4317"  # OTLP gRPC receiver
+      - "4318:4318"  # OTLP HTTP receiver
+      - "8888:8888"  # Prometheus metrics exposed by the collector
+      - "8889:8889"  # Prometheus exporter metrics
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - dashboard-net
+
+  # Prometheus for metrics storage
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: cloud-dashboard-prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - dashboard-net
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cloud-dashboard-grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    networks:
+      - dashboard-net
+
+volumes:
+  postgres-data:
+  minio-data:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  dashboard-net:
+    driver: bridge

@@ -1,0 +1,74 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Tests
+tests/
+test_*.py
+*_test.py
+
+# Development
+scripts/
+*.log
+*.sqlite
+*.db
+
+# Data (exclude large datasets)
+data/warehouse/*
+data/cache/*
+!data/warehouse/.gitkeep
+!data/cache/.gitkeep
+
+# Misc
+*.bak
+*.tmp
+*.temp
+.env.example
+LICENSE
+CONTRIBUTING.md
+CHANGELOG.md
