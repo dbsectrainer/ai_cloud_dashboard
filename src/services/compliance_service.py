@@ -159,7 +159,6 @@ class ComplianceChecker:
 
     def check_mfa_enforcement(self, config: dict[str, Any]) -> ComplianceCheck:
         """Check if MFA is enforced for privileged accounts."""
-        mfa_enforced = config.get("mfa_enforced", False)
         privileged_accounts = config.get("privileged_accounts", [])
 
         # Check if all privileged accounts have MFA

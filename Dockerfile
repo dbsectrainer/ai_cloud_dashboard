@@ -38,7 +38,6 @@ RUN pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.t
 
 # Copy application code
 COPY src ./src
-COPY data ./data
 
 # Create directories for runtime data
 RUN mkdir -p data/warehouse data/cache && \

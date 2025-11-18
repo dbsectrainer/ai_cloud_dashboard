@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 
 class PricingModel(Enum):
@@ -177,7 +176,7 @@ class TCOCalculator:
 
     def calculate_roi_years(
         self, on_prem_cost: float, cloud_cost: float, migration_cost: float
-    ) -> Optional[float]:
+    ) -> float | None:
         """
         Calculate ROI payback period in years.
 

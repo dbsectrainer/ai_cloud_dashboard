@@ -1,7 +1,6 @@
 """Application settings using Pydantic for type-safe configuration."""
 
 from pathlib import Path
-from typing import Optional
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -29,25 +28,25 @@ class Settings(BaseSettings):
     EXPORT_DIR: Path = Field(default=Path("data/exports"))
 
     # Database
-    DATABASE_URL: Optional[str] = Field(
+    DATABASE_URL: str | None = Field(
         default=None,
         description="PostgreSQL connection string",
     )
 
     # Object Storage (MinIO/S3)
-    MINIO_ENDPOINT: Optional[str] = None
-    MINIO_ACCESS_KEY: Optional[str] = None
-    MINIO_SECRET_KEY: Optional[str] = None
+    MINIO_ENDPOINT: str | None = None
+    MINIO_ACCESS_KEY: str | None = None
+    MINIO_SECRET_KEY: str | None = None
     MINIO_SECURE: bool = False
     MINIO_BUCKET: str = "cloud-dashboard"
 
     # Observability
-    OTEL_ENDPOINT: Optional[str] = Field(
+    OTEL_ENDPOINT: str | None = Field(
         default=None,
         description="OpenTelemetry collector endpoint (HTTP)",
     )
     OTEL_SERVICE_NAME: str = "cloud-dashboard"
-    PROMETHEUS_URL: Optional[str] = None
+    PROMETHEUS_URL: str | None = None
     ENABLE_TELEMETRY: bool = True
 
     # Features

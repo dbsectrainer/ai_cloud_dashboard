@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 
 def calculate_recommendation_score(inputs):
@@ -216,7 +215,7 @@ def display_recommendation_results(scores):
         "China Providers": "Best for cost efficiency and Asia-Pacific expansion.",
     }
     cols = st.columns(len(scores))
-    for col, (provider, score) in zip(cols, scores.items()):
+    for col, (provider, score) in zip(cols, scores.items(), strict=True):
         with col:
             st.metric(label=provider, value=int(score))
             st.caption(tooltips.get(provider, ""))

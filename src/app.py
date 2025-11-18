@@ -1,53 +1,53 @@
-import streamlit as st
-from datetime import datetime
 import numpy as np
+import streamlit as st
 
-# Import custom modules
-from data.market_data import (
-    get_market_share_data,
-    get_growth_trends_data,
-    get_regional_metrics,
-    get_key_metrics,
-)
-from data.compliance_data import (
-    get_compliance_matrix,
-    get_security_certifications,
-    get_data_residency_map,
-)
-from data.performance_data import (
-    get_performance_metrics,
-    get_sla_comparisons,
-    get_cost_analysis,
-    calculate_tco,
-)
-from visualizations.plots import (
-    create_market_share_treemap,
-    create_growth_trends_line,
-    create_provider_comparison_radar,
-)
-from visualizations.compliance_plots import (
-    create_compliance_heatmap,
-    create_security_score_gauge,
-    create_data_residency_map,
-    create_certification_timeline,
-)
-from visualizations.performance_plots import (
-    create_performance_radar,
-    create_latency_heatmap,
-    create_sla_comparison,
-    create_cost_comparison,
-    create_tco_analysis,
-)
+from components.decision_helper import display_decision_helper
+from components.future_trends import display_future_trends
+from components.learning_resources import display_learning_resources
 from components.metrics import (
     display_key_metrics,
     display_regional_metrics,
     display_sidebar_navigation,
 )
-from components.decision_helper import display_decision_helper
 from components.platform_comparisons import display_platform_comparisons
-from components.learning_resources import display_learning_resources
-from components.future_trends import display_future_trends
-from utils.helpers import filter_data_by_regions, get_time_range_dates
+from data.compliance_data import (
+    get_compliance_matrix,
+    get_data_residency_map,
+    get_security_certifications,
+)
+
+# Import custom modules
+from data.market_data import (
+    get_growth_trends_data,
+    get_key_metrics,
+    get_market_share_data,
+    get_regional_metrics,
+)
+from data.performance_data import (
+    calculate_tco,
+    get_cost_analysis,
+    get_performance_metrics,
+    get_sla_comparisons,
+)
+from utils.helpers import filter_data_by_regions
+from visualizations.compliance_plots import (
+    create_certification_timeline,
+    create_compliance_heatmap,
+    create_data_residency_map,
+    create_security_score_gauge,
+)
+from visualizations.performance_plots import (
+    create_cost_comparison,
+    create_latency_heatmap,
+    create_performance_radar,
+    create_sla_comparison,
+    create_tco_analysis,
+)
+from visualizations.plots import (
+    create_growth_trends_line,
+    create_market_share_treemap,
+    create_provider_comparison_radar,
+)
 
 # Set up Streamlit page configuration
 st.set_page_config(

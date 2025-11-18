@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import datetime
 
 
 def display_key_metrics(metrics_data):
@@ -11,7 +10,7 @@ def display_key_metrics(metrics_data):
         "Active Providers": "Number of active cloud service providers worldwide.",
         "Avg. Compliance Score": "Average compliance score across all providers.",
     }
-    for col, (metric, data) in zip(cols, metrics_data.items()):
+    for col, (metric, data) in zip(cols, metrics_data.items(), strict=True):
         with col:
             st.metric(label=metric, value=data["value"], delta=data["change"])
             st.caption(tooltips.get(metric, ""))
@@ -20,7 +19,7 @@ def display_key_metrics(metrics_data):
 def display_regional_metrics(regional_data):
     """Display regional metrics in columns."""
     cols = st.columns(len(regional_data))
-    for col, (region, data) in zip(cols, regional_data.items()):
+    for col, (region, data) in zip(cols, regional_data.items(), strict=True):
         with col:
             st.metric(region, data["value"], f"↑ {data['growth']}")
             st.metric("Market Share", data["share"], data["share_change"])
@@ -76,7 +75,7 @@ def display_sidebar_navigation():
     )
     st.sidebar.markdown("---")
     st.sidebar.subheader("Feedback")
-    feedback = st.sidebar.text_area("Share your feedback or feature requests:")
+    st.sidebar.text_area("Share your feedback or feature requests:")
     if st.sidebar.button("Submit Feedback"):
         st.sidebar.success("Thank you for your feedback!")
     return page, selected_regions, time_range, selected_provider

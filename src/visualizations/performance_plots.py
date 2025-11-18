@@ -1,6 +1,5 @@
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
 
 
 def create_performance_radar(performance_data):
@@ -39,7 +38,7 @@ def create_performance_radar(performance_data):
         )
 
     fig.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+        polar={"radialaxis": {"visible": True, "range": [0, 100]}},
         showlegend=True,
         title="Performance Metrics by Provider",
         meta={
@@ -70,7 +69,7 @@ def create_latency_heatmap(performance_data):
                 x=j,
                 y=i,
                 showarrow=False,
-                font=dict(color="white"),
+                font={"color": "white"},
             )
 
     return fig
@@ -94,7 +93,7 @@ def create_sla_comparison(sla_data):
     fig.update_layout(
         title="SLA Comparison by Service Type",
         barmode="group",
-        yaxis=dict(title="SLA (%)", range=[99.5, 100]),  # Zoom in on the relevant range
+        yaxis={"title": "SLA (%)", "range": [99.5, 100]},  # Zoom in on the relevant range
     )
 
     return fig
@@ -118,7 +117,7 @@ def create_cost_comparison(cost_data):
     )
 
     fig.update_layout(
-        xaxis_title="Service Type", yaxis_title="Cost (USD)", xaxis=dict(tickangle=45)
+        xaxis_title="Service Type", yaxis_title="Cost (USD)", xaxis={"tickangle": 45}
     )
 
     return fig
@@ -168,7 +167,7 @@ def create_tco_analysis(tco_data):
             text=tco_data["Savings vs. Highest"].apply(lambda x: f"{x:.1f}%"),
             mode="lines+markers+text",
             yaxis="y2",
-            line=dict(color="green", width=2),
+            line={"color": "green", "width": 2},
             textposition="top center",
         )
     )
@@ -176,8 +175,8 @@ def create_tco_analysis(tco_data):
     fig.update_layout(
         title="Total Cost of Ownership Analysis",
         barmode="group",
-        yaxis=dict(title="Cost (USD)"),
-        yaxis2=dict(title="Savings (%)", overlaying="y", side="right", range=[0, 100]),
+        yaxis={"title": "Cost (USD)"},
+        yaxis2={"title": "Savings (%)", "overlaying": "y", "side": "right", "range": [0, 100]},
     )
 
     return fig

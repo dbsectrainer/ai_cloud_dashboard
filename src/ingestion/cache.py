@@ -4,7 +4,7 @@ import json
 import logging
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -33,7 +33,7 @@ class CacheManager:
     def _load_metadata(self) -> None:
         """Load cache metadata."""
         if self.metadata_file.exists():
-            with open(self.metadata_file, "r") as f:
+            with open(self.metadata_file) as f:
                 self.metadata = json.load(f)
         else:
             self.metadata = {}
@@ -44,7 +44,7 @@ class CacheManager:
         with open(self.metadata_file, "w") as f:
             json.dump(self.metadata, f, indent=2)
 
-    def get(self, key: str) -> Optional[pd.DataFrame]:
+    def get(self, key: str) -> pd.DataFrame | None:
         """
         Retrieve cached data if valid.
 
@@ -79,7 +79,7 @@ class CacheManager:
             self.delete(key)
             return None
 
-    def set(self, key: str, data: pd.DataFrame, metadata: Optional[dict] = None) -> bool:
+    def set(self, key: str, data: pd.DataFrame, metadata: dict | None = None) -> bool:
         """
         Store data in cache.
 
@@ -179,7 +179,7 @@ class CacheManager:
             "entries": self.metadata,
         }
 
-    def get_freshness(self, key: str) -> Optional[datetime]:
+    def get_freshness(self, key: str) -> datetime | None:
         """Get the last cached time for a key."""
         entry = self.metadata.get(key)
         if not entry:

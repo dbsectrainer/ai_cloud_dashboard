@@ -3,12 +3,10 @@
 import asyncio
 import logging
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 import pandas as pd
-
-from src.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +24,7 @@ class CloudDataFetcher:
         """
         self.timeout = timeout
         self.max_retries = max_retries
-        self.session: Optional[httpx.AsyncClient] = None
+        self.session: httpx.AsyncClient | None = None
 
     async def __aenter__(self):
         """Async context manager entry."""
@@ -43,7 +41,7 @@ class CloudDataFetcher:
             await self.session.aclose()
 
     async def _fetch_with_retry(
-        self, url: str, params: Optional[dict] = None
+        self, url: str, params: dict | None = None
     ) -> dict[str, Any]:
         """
         Fetch data with retry logic.
@@ -94,8 +92,6 @@ class CloudDataFetcher:
         try:
             # Use AWS pricing API (simplified for performance)
             # In production, you'd want to cache the full pricing index
-            url = "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/us-east-1/index.json"
-
             logger.info("Fetching AWS pricing sample...")
             # For demo purposes, we'll create synthetic data based on known AWS pricing
             # In production, parse the actual AWS pricing JSON

@@ -1,7 +1,6 @@
 """OpenTelemetry instrumentation for observability."""
 
 import logging
-from typing import Optional
 
 from opentelemetry import metrics, trace
 from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
@@ -17,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 def init_telemetry(
     service_name: str,
-    endpoint: Optional[str] = None,
+    endpoint: str | None = None,
     environment: str = "development",
 ) -> tuple[trace.Tracer, metrics.Meter]:
     """
@@ -157,6 +156,6 @@ def create_metrics(meter: metrics.Meter) -> dict:
 
 
 # Global telemetry instances (initialized in app startup)
-tracer: Optional[trace.Tracer] = None
-meter: Optional[metrics.Meter] = None
-app_metrics: Optional[dict] = None
+tracer: trace.Tracer | None = None
+meter: metrics.Meter | None = None
+app_metrics: dict | None = None
