@@ -1,53 +1,53 @@
-import streamlit as st
-from datetime import datetime
 import numpy as np
+import streamlit as st
 
-# Import custom modules
-from data.market_data import (
-    get_market_share_data,
-    get_growth_trends_data,
-    get_regional_metrics,
-    get_key_metrics,
-)
-from data.compliance_data import (
-    get_compliance_matrix,
-    get_security_certifications,
-    get_data_residency_map,
-)
-from data.performance_data import (
-    get_performance_metrics,
-    get_sla_comparisons,
-    get_cost_analysis,
-    calculate_tco,
-)
-from visualizations.plots import (
-    create_market_share_treemap,
-    create_growth_trends_line,
-    create_provider_comparison_radar,
-)
-from visualizations.compliance_plots import (
-    create_compliance_heatmap,
-    create_security_score_gauge,
-    create_data_residency_map,
-    create_certification_timeline,
-)
-from visualizations.performance_plots import (
-    create_performance_radar,
-    create_latency_heatmap,
-    create_sla_comparison,
-    create_cost_comparison,
-    create_tco_analysis,
-)
+from components.decision_helper import display_decision_helper
+from components.future_trends import display_future_trends
+from components.learning_resources import display_learning_resources
 from components.metrics import (
     display_key_metrics,
     display_regional_metrics,
     display_sidebar_navigation,
 )
-from components.decision_helper import display_decision_helper
 from components.platform_comparisons import display_platform_comparisons
-from components.learning_resources import display_learning_resources
-from components.future_trends import display_future_trends
-from utils.helpers import filter_data_by_regions, get_time_range_dates
+from data.compliance_data import (
+    get_compliance_matrix,
+    get_data_residency_map,
+    get_security_certifications,
+)
+
+# Import custom modules
+from data.market_data import (
+    get_growth_trends_data,
+    get_key_metrics,
+    get_market_share_data,
+    get_regional_metrics,
+)
+from data.performance_data import (
+    calculate_tco,
+    get_cost_analysis,
+    get_performance_metrics,
+    get_sla_comparisons,
+)
+from utils.helpers import filter_data_by_regions
+from visualizations.compliance_plots import (
+    create_certification_timeline,
+    create_compliance_heatmap,
+    create_data_residency_map,
+    create_security_score_gauge,
+)
+from visualizations.performance_plots import (
+    create_cost_comparison,
+    create_latency_heatmap,
+    create_performance_radar,
+    create_sla_comparison,
+    create_tco_analysis,
+)
+from visualizations.plots import (
+    create_growth_trends_line,
+    create_market_share_treemap,
+    create_provider_comparison_radar,
+)
 
 # Set up Streamlit page configuration
 st.set_page_config(
@@ -131,9 +131,7 @@ def main():
                 first = growth_data.iloc[0][1:].mean()
                 last = growth_data.iloc[-1][1:].mean()
                 trend = "increasing" if last > first else "decreasing"
-                st.write(
-                    f"**Market growth trend:** {trend.title()} ({first:.2f}% → {last:.2f}%)"
-                )
+                st.write(f"**Market growth trend:** {trend.title()} ({first:.2f}% → {last:.2f}%)")
             # Anomaly detection (simple: large jump)
             numeric_growth_data = growth_data.select_dtypes(include=[np.number])
             diffs = numeric_growth_data.iloc[-5:].diff().abs().mean().mean()
@@ -147,9 +145,7 @@ def main():
     # Market Intelligence Page
     elif page == "Market Intelligence":
         st.title("📊 Global Market Intelligence")
-        tab1, tab2, tab3 = st.tabs(
-            ["Market Share", "Growth Trends", "Regional Analysis"]
-        )
+        tab1, tab2, tab3 = st.tabs(["Market Share", "Growth Trends", "Regional Analysis"])
         # Get and filter data based on selections
         market_data_dict = get_market_share_data(user_role)
         market_data = filter_data_by_regions(market_data_dict["data"], selected_regions)
@@ -160,9 +156,7 @@ def main():
             market_data = market_data[market_data["Provider"] == selected_provider]
             growth_data = growth_data  # (implement provider filter if needed)
         with tab1:
-            st.plotly_chart(
-                create_market_share_treemap(market_data), use_container_width=True
-            )
+            st.plotly_chart(create_market_share_treemap(market_data), use_container_width=True)
             # Show role-based insights
             if user_role == "Executive":
                 st.success(market_data_dict.get("top_opportunity", ""))
@@ -181,9 +175,7 @@ def main():
                     file_name="market_data.csv",
                 )
         with tab2:
-            st.plotly_chart(
-                create_growth_trends_line(growth_data), use_container_width=True
-            )
+            st.plotly_chart(create_growth_trends_line(growth_data), use_container_width=True)
             st.caption(growth_data_dict.get("trend_summary", ""))
             if user_role == "Analyst":
                 st.write(growth_data_dict.get("advanced_insights", ""))
@@ -195,9 +187,7 @@ def main():
         with tab3:
             if user_role in ["Manager", "Analyst"]:
                 display_regional_metrics(get_regional_metrics(user_role)["data"])
-            st.plotly_chart(
-                create_provider_comparison_radar(market_data), use_container_width=True
-            )
+            st.plotly_chart(create_provider_comparison_radar(market_data), use_container_width=True)
 
     # Security & Compliance Page
     elif page == "Security & Compliance":
@@ -209,29 +199,21 @@ def main():
         residency_data = get_data_residency_map()
 
         # Security Score Overview
-        st.plotly_chart(
-            create_security_score_gauge(security_data), use_container_width=True
-        )
+        st.plotly_chart(create_security_score_gauge(security_data), use_container_width=True)
 
         # Compliance Matrix
         if user_role in ["Manager", "Analyst"]:
             st.subheader("Compliance Requirements by Region")
-            st.plotly_chart(
-                create_compliance_heatmap(compliance_data), use_container_width=True
-            )
+            st.plotly_chart(create_compliance_heatmap(compliance_data), use_container_width=True)
 
         # Security Certifications Timeline
         if user_role == "Analyst":
             st.subheader("Security Certifications & Audit History")
-            st.plotly_chart(
-                create_certification_timeline(security_data), use_container_width=True
-            )
+            st.plotly_chart(create_certification_timeline(security_data), use_container_width=True)
 
         # Data Residency Map
         st.subheader("Global Data Residency")
-        st.plotly_chart(
-            create_data_residency_map(residency_data), use_container_width=True
-        )
+        st.plotly_chart(create_data_residency_map(residency_data), use_container_width=True)
 
     # Cost Analysis Page
     elif page == "Cost Analysis":
@@ -275,21 +257,15 @@ def main():
         performance_data = get_performance_metrics()
         sla_data = get_sla_comparisons()
         # Performance Overview
-        st.plotly_chart(
-            create_performance_radar(performance_data), use_container_width=True
-        )
+        st.plotly_chart(create_performance_radar(performance_data), use_container_width=True)
         # Role-based insights and advanced analytics
         if user_role == "Executive":
             top_perf = performance_data.loc[performance_data["Uptime (%)"].idxmax()]
-            st.success(
-                f"Top Performer: {top_perf['Provider']} (Uptime: {top_perf['Uptime (%)']}%)"
-            )
+            st.success(f"Top Performer: {top_perf['Provider']} (Uptime: {top_perf['Uptime (%)']}%)")
             st.info("Executive View: Focus on uptime and reliability KPIs.")
         elif user_role == "Manager":
             st.subheader("Global Latency Analysis")
-            st.plotly_chart(
-                create_latency_heatmap(performance_data), use_container_width=True
-            )
+            st.plotly_chart(create_latency_heatmap(performance_data), use_container_width=True)
             slowest = performance_data.loc[performance_data["Latency (ms)"].idxmax()]
             st.warning(
                 f"Latency Alert: {slowest['Provider']} highest latency ({slowest['Latency (ms)']} ms)"
@@ -297,9 +273,7 @@ def main():
             st.info("Manager View: Monitor latency and regional performance.")
         elif user_role == "Analyst":
             st.subheader("Global Latency Analysis")
-            st.plotly_chart(
-                create_latency_heatmap(performance_data), use_container_width=True
-            )
+            st.plotly_chart(create_latency_heatmap(performance_data), use_container_width=True)
             st.subheader("Service Level Agreements")
             st.plotly_chart(create_sla_comparison(sla_data), use_container_width=True)
             st.write("Advanced Analytics: Outlier Detection")
@@ -334,9 +308,7 @@ def main():
     st.sidebar.subheader("Data Privacy & Export")
     st.sidebar.markdown("View our [Privacy Policy](docs/security.md)")
     if st.sidebar.button("Export My Data"):
-        st.sidebar.success(
-            "Your data export request has been received. (Feature coming soon)"
-        )
+        st.sidebar.success("Your data export request has been received. (Feature coming soon)")
 
 
 if __name__ == "__main__":

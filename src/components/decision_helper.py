@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 
 
 def calculate_recommendation_score(inputs):
@@ -189,13 +188,9 @@ def display_decision_helper():
     considerations = []
 
     if any(inputs["compliance_needs"].values()):
-        considerations.append(
-            "- Ensure detailed compliance verification for chosen providers"
-        )
+        considerations.append("- Ensure detailed compliance verification for chosen providers")
     if inputs["data_sovereignty"] != "No specific requirements":
-        considerations.append(
-            "- Review data residency requirements and provider capabilities"
-        )
+        considerations.append("- Review data residency requirements and provider capabilities")
     if budget_constraint == "High":
         considerations.append("- Consider multi-cloud strategy to optimize costs")
     if any(inputs["tech_requirements"].values()):
@@ -216,7 +211,7 @@ def display_recommendation_results(scores):
         "China Providers": "Best for cost efficiency and Asia-Pacific expansion.",
     }
     cols = st.columns(len(scores))
-    for col, (provider, score) in zip(cols, scores.items()):
+    for col, (provider, score) in zip(cols, scores.items(), strict=True):
         with col:
             st.metric(label=provider, value=int(score))
             st.caption(tooltips.get(provider, ""))

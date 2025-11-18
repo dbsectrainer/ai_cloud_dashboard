@@ -1,6 +1,5 @@
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
 
 
 def create_performance_radar(performance_data):
@@ -28,8 +27,7 @@ def create_performance_radar(performance_data):
                 r=[
                     provider_data["Latency (ms)"].iloc[0],
                     provider_data["Uptime (%)"].iloc[0],
-                    provider_data["IOPS"].iloc[0]
-                    / 1000,  # Scale down for visualization
+                    provider_data["IOPS"].iloc[0] / 1000,  # Scale down for visualization
                     provider_data["Network Throughput (Gbps)"].iloc[0],
                 ],
                 theta=["Latency", "Uptime", "IOPS (K)", "Network"],
@@ -39,12 +37,10 @@ def create_performance_radar(performance_data):
         )
 
     fig.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, 100])),
+        polar={"radialaxis": {"visible": True, "range": [0, 100]}},
         showlegend=True,
         title="Performance Metrics by Provider",
-        meta={
-            "aria-label": "Radar chart showing performance metrics by provider for 2025."
-        },
+        meta={"aria-label": "Radar chart showing performance metrics by provider for 2025."},
     )
 
     return fig
@@ -70,7 +66,7 @@ def create_latency_heatmap(performance_data):
                 x=j,
                 y=i,
                 showarrow=False,
-                font=dict(color="white"),
+                font={"color": "white"},
             )
 
     return fig
@@ -94,7 +90,7 @@ def create_sla_comparison(sla_data):
     fig.update_layout(
         title="SLA Comparison by Service Type",
         barmode="group",
-        yaxis=dict(title="SLA (%)", range=[99.5, 100]),  # Zoom in on the relevant range
+        yaxis={"title": "SLA (%)", "range": [99.5, 100]},  # Zoom in on the relevant range
     )
 
     return fig
@@ -103,9 +99,7 @@ def create_sla_comparison(sla_data):
 def create_cost_comparison(cost_data):
     """Create grouped bar chart for cost comparison."""
     # Melt the dataframe for easier plotting
-    melted_data = cost_data.melt(
-        id_vars=["Service"], var_name="Provider", value_name="Cost"
-    )
+    melted_data = cost_data.melt(id_vars=["Service"], var_name="Provider", value_name="Cost")
 
     fig = px.bar(
         melted_data,
@@ -117,9 +111,7 @@ def create_cost_comparison(cost_data):
         text=melted_data["Cost"].apply(lambda x: f"${x:.4f}"),
     )
 
-    fig.update_layout(
-        xaxis_title="Service Type", yaxis_title="Cost (USD)", xaxis=dict(tickangle=45)
-    )
+    fig.update_layout(xaxis_title="Service Type", yaxis_title="Cost (USD)", xaxis={"tickangle": 45})
 
     return fig
 
@@ -168,7 +160,7 @@ def create_tco_analysis(tco_data):
             text=tco_data["Savings vs. Highest"].apply(lambda x: f"{x:.1f}%"),
             mode="lines+markers+text",
             yaxis="y2",
-            line=dict(color="green", width=2),
+            line={"color": "green", "width": 2},
             textposition="top center",
         )
     )
@@ -176,8 +168,8 @@ def create_tco_analysis(tco_data):
     fig.update_layout(
         title="Total Cost of Ownership Analysis",
         barmode="group",
-        yaxis=dict(title="Cost (USD)"),
-        yaxis2=dict(title="Savings (%)", overlaying="y", side="right", range=[0, 100]),
+        yaxis={"title": "Cost (USD)"},
+        yaxis2={"title": "Savings (%)", "overlaying": "y", "side": "right", "range": [0, 100]},
     )
 
     return fig

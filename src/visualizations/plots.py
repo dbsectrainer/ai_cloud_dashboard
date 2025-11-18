@@ -1,6 +1,6 @@
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
 
 
 def create_market_share_treemap(market_data):
@@ -31,13 +31,11 @@ def create_market_share_treemap(market_data):
     )
 
     # Update hover template to show custom hover text
-    fig.update_traces(
-        hovertemplate="<b>%{label}</b><br>%{customdata[0]}<extra></extra>"
-    )
+    fig.update_traces(hovertemplate="<b>%{label}</b><br>%{customdata[0]}<extra></extra>")
 
     # Update layout for better readability
     fig.update_layout(
-        margin=dict(t=50, l=25, r=25, b=25),
+        margin={"t": 50, "l": 25, "r": 25, "b": 25},
         coloraxis_colorbar_title="YoY Growth (%)",
         # Accessibility: Add ARIA label for screen readers (Streamlit will render as HTML)
         title={
@@ -94,18 +92,16 @@ def create_provider_comparison_radar(market_data):
                 theta=categories,
                 name=provider,
                 fill="toself",
-                line=dict(color=color_palette[idx % len(color_palette)]),
-                hovertemplate="<b>%{theta}</b><br>"
-                + "%{r:,.1f}<br>"
-                + "<extra></extra>",
+                line={"color": color_palette[idx % len(color_palette)]},
+                hovertemplate="<b>%{theta}</b><br>" + "%{r:,.1f}<br>" + "<extra></extra>",
             )
         )
 
     fig.update_layout(
-        polar=dict(radialaxis=dict(visible=True, range=[0, 100], ticksuffix="%")),
+        polar={"radialaxis": {"visible": True, "range": [0, 100], "ticksuffix": "%"}},
         showlegend=True,
         title="Provider Comparison Matrix",
-        margin=dict(t=100),
+        margin={"t": 100},
     )
 
     return fig

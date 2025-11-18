@@ -1,6 +1,6 @@
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
 
 
 def create_compliance_heatmap(compliance_data):
@@ -13,9 +13,7 @@ def create_compliance_heatmap(compliance_data):
         numeric_data[col] = numeric_data[col].map(value_map)
 
     fig = px.imshow(
-        numeric_data.set_index("Requirement")[
-            ["US Providers", "EU Providers", "China Providers"]
-        ],
+        numeric_data.set_index("Requirement")[["US Providers", "EU Providers", "China Providers"]],
         color_continuous_scale=["red", "yellow", "green"],
         title="Compliance Requirements Coverage",
         labels={"color": "Compliance Level"},
@@ -25,14 +23,14 @@ def create_compliance_heatmap(compliance_data):
     )
 
     # Add text annotations
-    for i, req in enumerate(compliance_data["Requirement"]):
+    for i, _req in enumerate(compliance_data["Requirement"]):
         for j, col in enumerate(["US Providers", "EU Providers", "China Providers"]):
             fig.add_annotation(
                 text=compliance_data.iloc[i][col],
                 x=j,
                 y=i,
                 showarrow=False,
-                font=dict(size=16),
+                font={"size": 16},
             )
 
     return fig
@@ -83,7 +81,7 @@ def create_data_residency_map(residency_data):
     fig = go.Figure()
 
     # Add traces for each continent
-    for continent in residency_data.keys():
+    for continent in residency_data:
         continent_data = df[df["Continent"] == continent]
         fig.add_trace(
             go.Scattergeo(
@@ -97,21 +95,21 @@ def create_data_residency_map(residency_data):
                 ),
                 mode="markers",
                 name=continent,
-                marker=dict(size=10),
+                marker={"size": 10},
             )
         )
 
     fig.update_layout(
         title="Global Data Residency Map",
-        geo=dict(
-            showland=True,
-            showcountries=True,
-            showocean=True,
-            countrywidth=0.5,
-            landcolor="rgb(243, 243, 243)",
-            oceancolor="rgb(204, 229, 255)",
-            projection_scale=1,
-        ),
+        geo={
+            "showland": True,
+            "showcountries": True,
+            "showocean": True,
+            "countrywidth": 0.5,
+            "landcolor": "rgb(243, 243, 243)",
+            "oceancolor": "rgb(204, 229, 255)",
+            "projection_scale": 1,
+        },
     )
 
     return fig
@@ -121,7 +119,7 @@ def create_certification_timeline(security_data):
     """Create timeline visualization for security certifications."""
     fig = go.Figure()
 
-    for idx, row in security_data.iterrows():
+    for _idx, row in security_data.iterrows():
         fig.add_trace(
             go.Scatter(
                 x=[row["Last Audit"]],
@@ -131,12 +129,12 @@ def create_certification_timeline(security_data):
                 text=f"Score: {row['Risk Score']}",
                 textposition="middle right",
                 hovertext=f"Certifications: {', '.join(row['Certifications'])}",
-                marker=dict(
-                    size=20,
-                    color=row["Risk Score"],
-                    colorscale="Viridis",
-                    showscale=True,
-                ),
+                marker={
+                    "size": 20,
+                    "color": row["Risk Score"],
+                    "colorscale": "Viridis",
+                    "showscale": True,
+                },
             )
         )
 

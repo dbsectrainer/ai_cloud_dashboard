@@ -1,6 +1,5 @@
-import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+import pandas as pd
 
 
 def get_market_share_data(role="Executive"):

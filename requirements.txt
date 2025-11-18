@@ -1,4 +1,26 @@
+# Core dependencies
 streamlit>=1.24.0
 pandas>=2.0.0
 plotly>=5.13.0
-numpy>=1.24.0
+numpy>=1.24.0,<2.0.0
+
+# Configuration management
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# HTTP client
+httpx>=0.25.0
+
+# OpenTelemetry (observability)
+opentelemetry-api>=1.20.0
+opentelemetry-sdk>=1.20.0
+opentelemetry-exporter-otlp-proto-http>=1.20.0
+
+# Data storage
+pyarrow>=14.0.0  # For Parquet support
+
+# Database (optional)
+psycopg2-binary>=2.9.9  # PostgreSQL adapter
+
+# Utilities
+python-dotenv>=1.0.0
