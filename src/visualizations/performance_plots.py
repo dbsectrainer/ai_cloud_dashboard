@@ -27,8 +27,7 @@ def create_performance_radar(performance_data):
                 r=[
                     provider_data["Latency (ms)"].iloc[0],
                     provider_data["Uptime (%)"].iloc[0],
-                    provider_data["IOPS"].iloc[0]
-                    / 1000,  # Scale down for visualization
+                    provider_data["IOPS"].iloc[0] / 1000,  # Scale down for visualization
                     provider_data["Network Throughput (Gbps)"].iloc[0],
                 ],
                 theta=["Latency", "Uptime", "IOPS (K)", "Network"],
@@ -41,9 +40,7 @@ def create_performance_radar(performance_data):
         polar={"radialaxis": {"visible": True, "range": [0, 100]}},
         showlegend=True,
         title="Performance Metrics by Provider",
-        meta={
-            "aria-label": "Radar chart showing performance metrics by provider for 2025."
-        },
+        meta={"aria-label": "Radar chart showing performance metrics by provider for 2025."},
     )
 
     return fig
@@ -102,9 +99,7 @@ def create_sla_comparison(sla_data):
 def create_cost_comparison(cost_data):
     """Create grouped bar chart for cost comparison."""
     # Melt the dataframe for easier plotting
-    melted_data = cost_data.melt(
-        id_vars=["Service"], var_name="Provider", value_name="Cost"
-    )
+    melted_data = cost_data.melt(id_vars=["Service"], var_name="Provider", value_name="Cost")
 
     fig = px.bar(
         melted_data,
@@ -116,9 +111,7 @@ def create_cost_comparison(cost_data):
         text=melted_data["Cost"].apply(lambda x: f"${x:.4f}"),
     )
 
-    fig.update_layout(
-        xaxis_title="Service Type", yaxis_title="Cost (USD)", xaxis={"tickangle": 45}
-    )
+    fig.update_layout(xaxis_title="Service Type", yaxis_title="Cost (USD)", xaxis={"tickangle": 45})
 
     return fig
 

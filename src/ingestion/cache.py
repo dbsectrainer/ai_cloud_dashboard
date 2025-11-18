@@ -141,9 +141,7 @@ class CacheManager:
 
     def _enforce_size_limit(self) -> None:
         """Enforce maximum cache size by removing oldest entries."""
-        total_size_bytes = sum(
-            entry.get("size_bytes", 0) for entry in self.metadata.values()
-        )
+        total_size_bytes = sum(entry.get("size_bytes", 0) for entry in self.metadata.values())
         max_size_bytes = self.max_size_mb * 1024 * 1024
 
         if total_size_bytes <= max_size_bytes:
@@ -166,9 +164,7 @@ class CacheManager:
     def get_stats(self) -> dict[str, Any]:
         """Get cache statistics."""
         total_size = sum(entry.get("size_bytes", 0) for entry in self.metadata.values())
-        total_records = sum(
-            entry.get("record_count", 0) for entry in self.metadata.values()
-        )
+        total_records = sum(entry.get("record_count", 0) for entry in self.metadata.values())
 
         return {
             "entry_count": len(self.metadata),

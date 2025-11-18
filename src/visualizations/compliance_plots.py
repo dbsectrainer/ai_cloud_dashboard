@@ -13,9 +13,7 @@ def create_compliance_heatmap(compliance_data):
         numeric_data[col] = numeric_data[col].map(value_map)
 
     fig = px.imshow(
-        numeric_data.set_index("Requirement")[
-            ["US Providers", "EU Providers", "China Providers"]
-        ],
+        numeric_data.set_index("Requirement")[["US Providers", "EU Providers", "China Providers"]],
         color_continuous_scale=["red", "yellow", "green"],
         title="Compliance Requirements Coverage",
         labels={"color": "Compliance Level"},

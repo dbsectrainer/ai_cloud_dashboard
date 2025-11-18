@@ -188,13 +188,9 @@ def display_decision_helper():
     considerations = []
 
     if any(inputs["compliance_needs"].values()):
-        considerations.append(
-            "- Ensure detailed compliance verification for chosen providers"
-        )
+        considerations.append("- Ensure detailed compliance verification for chosen providers")
     if inputs["data_sovereignty"] != "No specific requirements":
-        considerations.append(
-            "- Review data residency requirements and provider capabilities"
-        )
+        considerations.append("- Review data residency requirements and provider capabilities")
     if budget_constraint == "High":
         considerations.append("- Consider multi-cloud strategy to optimize costs")
     if any(inputs["tech_requirements"].values()):

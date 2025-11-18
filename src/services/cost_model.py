@@ -91,9 +91,7 @@ class TCOCalculator:
         hours_per_month = 730  # Average hours per month
         months = inputs.years * 12
 
-        compute_cost_monthly = (
-            effective_hourly_rate * hours_per_month * inputs.compute.quantity
-        )
+        compute_cost_monthly = effective_hourly_rate * hours_per_month * inputs.compute.quantity
         compute_cost_total = compute_cost_monthly * months
 
         # Storage costs
@@ -121,10 +119,7 @@ class TCOCalculator:
 
         # Calculate total before discount
         total_before_discount = (
-            compute_cost_total
-            + storage_cost_total
-            + data_transfer_cost_total
-            + support_cost_total
+            compute_cost_total + storage_cost_total + data_transfer_cost_total + support_cost_total
         )
 
         # Apply additional discount
@@ -147,9 +142,7 @@ class TCOCalculator:
             effective_hourly_rate=round(effective_hourly_rate, 4),
         )
 
-    def compare_pricing_models(
-        self, base_inputs: TCOInputs
-    ) -> dict[PricingModel, TCOResult]:
+    def compare_pricing_models(self, base_inputs: TCOInputs) -> dict[PricingModel, TCOResult]:
         """
         Compare TCO across different pricing models.
 

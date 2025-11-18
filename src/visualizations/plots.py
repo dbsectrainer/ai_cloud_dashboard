@@ -31,9 +31,7 @@ def create_market_share_treemap(market_data):
     )
 
     # Update hover template to show custom hover text
-    fig.update_traces(
-        hovertemplate="<b>%{label}</b><br>%{customdata[0]}<extra></extra>"
-    )
+    fig.update_traces(hovertemplate="<b>%{label}</b><br>%{customdata[0]}<extra></extra>")
 
     # Update layout for better readability
     fig.update_layout(
@@ -95,9 +93,7 @@ def create_provider_comparison_radar(market_data):
                 name=provider,
                 fill="toself",
                 line={"color": color_palette[idx % len(color_palette)]},
-                hovertemplate="<b>%{theta}</b><br>"
-                + "%{r:,.1f}<br>"
-                + "<extra></extra>",
+                hovertemplate="<b>%{theta}</b><br>" + "%{r:,.1f}<br>" + "<extra></extra>",
             )
         )
 

@@ -40,9 +40,7 @@ class CloudDataFetcher:
         if self.session:
             await self.session.aclose()
 
-    async def _fetch_with_retry(
-        self, url: str, params: dict | None = None
-    ) -> dict[str, Any]:
+    async def _fetch_with_retry(self, url: str, params: dict | None = None) -> dict[str, Any]:
         """
         Fetch data with retry logic.
 
@@ -67,15 +65,15 @@ class CloudDataFetcher:
                 logger.warning(f"HTTP {e.response.status_code} for {url}: {e}")
                 last_error = e
                 if e.response.status_code == 429:  # Rate limited
-                    await asyncio.sleep(2 ** attempt)  # Exponential backoff
+                    await asyncio.sleep(2**attempt)  # Exponential backoff
                 elif e.response.status_code >= 500:  # Server error
-                    await asyncio.sleep(2 ** attempt)
+                    await asyncio.sleep(2**attempt)
                 else:
                     break  # Don't retry client errors
             except Exception as e:
                 logger.error(f"Error fetching {url}: {e}")
                 last_error = e
-                await asyncio.sleep(2 ** attempt)
+                await asyncio.sleep(2**attempt)
 
         raise Exception(f"Failed to fetch {url} after {self.max_retries} attempts") from last_error
 
@@ -114,7 +112,18 @@ class CloudDataFetcher:
                 "region": ["us-east-1"] * 10,
                 "vcpu": [2, 2, 2, 2, 2, 4, 2, 4, 2, 4],
                 "memory_gb": [1, 2, 4, 8, 8, 16, 4, 8, 16, 32],
-                "price_per_hour": [0.0104, 0.0208, 0.0416, 0.0832, 0.096, 0.192, 0.085, 0.17, 0.126, 0.252],
+                "price_per_hour": [
+                    0.0104,
+                    0.0208,
+                    0.0416,
+                    0.0832,
+                    0.096,
+                    0.192,
+                    0.085,
+                    0.17,
+                    0.126,
+                    0.252,
+                ],
                 "currency": ["USD"] * 10,
                 "fetched_at": [datetime.now()] * 10,
             }
@@ -155,17 +164,19 @@ class CloudDataFetcher:
             # Parse relevant fields
             data = []
             for item in items:
-                data.append({
-                    "provider": "Azure",
-                    "service": item.get("serviceName", ""),
-                    "product_name": item.get("productName", ""),
-                    "sku_name": item.get("skuName", ""),
-                    "region": item.get("armRegionName", ""),
-                    "price_per_hour": item.get("retailPrice", 0.0),
-                    "currency": item.get("currencyCode", "USD"),
-                    "unit": item.get("unitOfMeasure", "1 Hour"),
-                    "fetched_at": datetime.now(),
-                })
+                data.append(
+                    {
+                        "provider": "Azure",
+                        "service": item.get("serviceName", ""),
+                        "product_name": item.get("productName", ""),
+                        "sku_name": item.get("skuName", ""),
+                        "region": item.get("armRegionName", ""),
+                        "price_per_hour": item.get("retailPrice", 0.0),
+                        "currency": item.get("currencyCode", "USD"),
+                        "unit": item.get("unitOfMeasure", "1 Hour"),
+                        "fetched_at": datetime.now(),
+                    }
+                )
 
             df = pd.DataFrame(data)
             logger.info(f"Fetched {len(df)} Azure pricing records")
@@ -207,7 +218,18 @@ class CloudDataFetcher:
                 "region": ["us-central1"] * 10,
                 "vcpu": [2, 2, 2, 1, 2, 4, 2, 4, 4, 8],
                 "memory_gb": [1, 2, 4, 3.75, 7.5, 15, 8, 16, 16, 32],
-                "price_per_hour": [0.0084, 0.0168, 0.0336, 0.0475, 0.095, 0.19, 0.097, 0.194, 0.209, 0.418],
+                "price_per_hour": [
+                    0.0084,
+                    0.0168,
+                    0.0336,
+                    0.0475,
+                    0.095,
+                    0.19,
+                    0.097,
+                    0.194,
+                    0.209,
+                    0.418,
+                ],
                 "currency": ["USD"] * 10,
                 "fetched_at": [datetime.now()] * 10,
             }
