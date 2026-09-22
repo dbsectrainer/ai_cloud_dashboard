@@ -50,9 +50,9 @@ def create_model_capability_radar(model_data):
     frontier = model_data[model_data["Capability Tier"] == "Frontier"]
     color_palette = px.colors.qualitative.Safe
 
-    max_context = model_data["Context Window (tokens)"].max()
+    max_context = frontier["Context Window (tokens)"].max()
     max_price = (
-        model_data["Input Price ($/1M tok)"] + model_data["Output Price ($/1M tok)"]
+        frontier["Input Price ($/1M tok)"] + frontier["Output Price ($/1M tok)"]
     ).max()
 
     for idx, (_, row) in enumerate(frontier.iterrows()):

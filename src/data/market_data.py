@@ -43,10 +43,12 @@ def get_market_share_data(role="Executive"):
             "YoY Growth (%)": [19, 34, 31, 22, 19, 15, 13, 9, 50, 10],
         }
     )
+    apac_growth = df.loc[df["Region"] == "Asia Pacific", "YoY Growth (%)"]
+    apac_growth_range = f"{int(apac_growth.min())}–{int(apac_growth.max())}%"
     if role == "Executive":
         return {
             "data": df.nlargest(3, "Market Share (%)"),
-            "top_opportunity": "Asia Pacific cloud growth (25% YoY) is the #1 expansion opportunity.",
+            "top_opportunity": f"Asia Pacific cloud growth ({apac_growth_range} YoY across providers) is the #1 expansion opportunity.",
             "key_risk": "North America market share is declining by 2%.",
         }
     elif role == "Manager":
@@ -72,7 +74,7 @@ def get_growth_trends_data(role="Executive"):
       - trend_summary (Executive/Manager)
       - raw_data_export/advanced_insights (Analyst)
     """
-    dates = pd.date_range(start="2026-01-01", end="2026-12-31", freq="ME")
+    dates = pd.date_range(start="2026-01-01", end=DATA_AS_OF, freq="ME")
     data = {
         "Date": dates,
         "North America": np.cumsum(np.random.normal(1, 0.2, len(dates))),

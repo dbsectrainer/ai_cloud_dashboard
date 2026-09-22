@@ -11,10 +11,10 @@ actually imports and what CI actually runs, not an aspirational stack.
 - pip
 
 ### Application
-- Streamlit 1.51+ (UI framework and dev server; see `requirements.txt`)
-- pandas 2.3+ (all "data sources" are hardcoded DataFrames built in `src/data/`)
-- Plotly 6.3+ (all charts in `src/visualizations/`)
-- numpy 2.3+ (used for a handful of illustrative synthetic/random values)
+- Streamlit 1.64+ (UI framework and dev server; see `requirements.txt`)
+- pandas 3.0+ (all "data sources" are hardcoded DataFrames built in `src/data/`)
+- Plotly 7.1+ (all charts in `src/visualizations/`)
+- numpy 2.4+ (used for a handful of illustrative synthetic/random values)
 
 ## Development Tools
 

@@ -222,9 +222,7 @@ def get_ai_model_comparison(role="Executive"):
             .to_dict()
         )
         return {
-            "data": df.groupby("Provider Region")
-            .apply(lambda x: x)
-            .reset_index(drop=True),
+            "data": df.sort_values("Provider Region").reset_index(drop=True),
             "regional_alert": "Open-weight model families (Meta, DeepSeek) now match or beat prior-generation closed frontier models on cost-efficiency.",
             "provider_comparison": comparison,
         }

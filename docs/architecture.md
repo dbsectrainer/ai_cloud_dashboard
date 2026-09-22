@@ -55,7 +55,7 @@ ai-cloud-dashboard/
 - Plotly for interactive visualizations
 - Custom plotting functions for specific use cases
 - Responsive and adaptive charts
-- Real-time data updates
+- `DATA_AS_OF` freshness captions on each dashboard page
 
 ## Key Components
 
@@ -83,7 +83,7 @@ ai-cloud-dashboard/
 - Resource utilization tracking
 
 ### Performance Metrics Module
-- Real-time performance monitoring
+- Synthetic performance metrics (refreshed manually via `src/data/`)
 - Latency analysis system
 - SLA compliance tracking
 - Resource efficiency metrics

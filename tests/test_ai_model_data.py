@@ -26,6 +26,11 @@ def test_get_ai_model_comparison_roles():
         assert not result["data"].empty
 
 
+def test_manager_view_preserves_provider_region():
+    result = ai_model_data.get_ai_model_comparison("Manager")
+    assert "Provider Region" in result["data"].columns
+
+
 def test_get_model_pricing_trend():
     result = ai_model_data.get_model_pricing_trend()
     df = result["data"]
