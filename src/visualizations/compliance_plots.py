@@ -24,9 +24,11 @@ def create_compliance_heatmap(compliance_data):
         color_continuous_scale=["red", "yellow", "green"],
         title="Compliance Requirements Coverage",
         labels={"color": "Compliance Level"},
+    )
+    fig.update_layout(
         meta={
             "aria-label": f"Heatmap showing compliance requirements coverage for US, EU, and China cloud providers, as of {DATA_AS_OF}."
-        },
+        }
     )
 
     # Add text annotations
