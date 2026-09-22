@@ -61,8 +61,7 @@ def display_future_trends():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown(
-            """
+        st.markdown("""
         **Technology Trends**
         - 🧠 Advanced AI Models & Quantum Computing
         - 🌐 Edge Computing & 6G Integration
@@ -76,12 +75,10 @@ def display_future_trends():
         - 💰 New Pricing Models
         - 🤝 Strategic Partnerships
         - 🔄 Multi-Cloud Adoption
-        """
-        )
+        """)
 
     with col2:
-        st.markdown(
-            """
+        st.markdown("""
         **Regulatory Trends**
         - 📜 AI Regulation Evolution
         - 🔒 Data Sovereignty Laws
@@ -95,8 +92,7 @@ def display_future_trends():
         - 🏦 Financial Services Evolution
         - 🏛️ Government Modernization
         - 🎮 Digital Entertainment
-        """
-        )
+        """)
 
     # Regional Development
     st.subheader("Regional Development Forecast")
@@ -165,8 +161,7 @@ def display_future_trends():
     # Strategic Recommendations
     st.subheader("Strategic Recommendations")
 
-    st.markdown(
-        """
+    st.markdown("""
     **For Government Agencies:**
     1. 📋 Develop comprehensive AI/cloud governance frameworks
     2. 🔒 Strengthen cybersecurity and data protection measures
@@ -187,8 +182,7 @@ def display_future_trends():
     3. 🔐 Enhance security and compliance features
     4. 🌍 Build strong regional partnerships
     5. ♻️ Implement sustainable practices
-    """
-    )
+    """)
 
     # Risk Factors
     st.subheader("Key Risk Factors to Monitor")
