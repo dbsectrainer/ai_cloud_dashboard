@@ -36,7 +36,7 @@
 - **All user-facing logic flows through `app.py`** (acts as orchestrator)
 - **Docs:**
   - Architecture and workflow diagrams in `docs/diagrams/`
-  - Developer onboarding: `docs/DEVELOPER_ROADMAP_2025.md`
+  - Developer onboarding: `docs/DEVELOPER_ROADMAP_2026.md`
 
 ## Integration & Extensibility
 - **Add new dashboard features:**

@@ -12,8 +12,7 @@ def display_learning_resources():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown(
-            """
+        st.markdown("""
         **AWS Learning Path**
         - [AWS Certified Cloud Practitioner](https://aws.amazon.com/certification/certified-cloud-practitioner/)
         - [AWS Solutions Architect](https://aws.amazon.com/certification/certified-solutions-architect-associate/)
@@ -23,12 +22,10 @@ def display_learning_resources():
         - [Azure Fundamentals (AZ-900)](https://learn.microsoft.com/en-us/certifications/azure-fundamentals/)
         - [Azure Solutions Architect](https://learn.microsoft.com/en-us/certifications/azure-solutions-architect/)
         - [Azure AI Engineer](https://learn.microsoft.com/en-us/certifications/azure-ai-engineer/)
-        """
-        )
+        """)
 
     with col2:
-        st.markdown(
-            """
+        st.markdown("""
         **Google Cloud Path**
         - [Cloud Digital Leader](https://cloud.google.com/certification/cloud-digital-leader)
         - [Professional Cloud Architect](https://cloud.google.com/certification/cloud-architect)
@@ -38,8 +35,7 @@ def display_learning_resources():
         - [AWS Skill Builder](https://explore.skillbuilder.aws/)
         - [Microsoft Learn](https://learn.microsoft.com/)
         - [Google Cloud Training](https://cloud.google.com/training)
-        """
-        )
+        """)
 
     # Chinese Platforms
     st.subheader("Chinese Cloud & AI Platforms")
@@ -47,8 +43,7 @@ def display_learning_resources():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown(
-            """
+        st.markdown("""
         **Alibaba Cloud**
         - [Alibaba Cloud Certification](https://edu.alibabacloud.com/certification)
         - [Cloud Computing Certification](https://edu.alibabacloud.com/certification/ace)
@@ -58,12 +53,10 @@ def display_learning_resources():
         - [Cloud Practitioner](https://cloud.tencent.com/edu/training/cert/introduction)
         - [Solutions Architect](https://cloud.tencent.com/edu/training/cert/introduction)
         - [Cloud Developer](https://cloud.tencent.com/edu/training/cert/introduction)
-        """
-        )
+        """)
 
     with col2:
-        st.markdown(
-            """
+        st.markdown("""
         **Baidu AI**
         - [Baidu AI Certification](https://ai.baidu.com/certification)
         - [PaddlePaddle Framework](https://www.paddlepaddle.org.cn/documentation/docs/en/guides/index_en.html)
@@ -72,8 +65,7 @@ def display_learning_resources():
         - [Alibaba Cloud Academy](https://edu.alibabacloud.com/)
         - [Tencent Cloud EDU](https://cloud.tencent.com/edu)
         - [Baidu AI Studio](https://aistudio.baidu.com/aistudio/index)
-        """
-        )
+        """)
 
     # European Platforms
     st.subheader("European Cloud & AI Platforms")
@@ -81,8 +73,7 @@ def display_learning_resources():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown(
-            """
+        st.markdown("""
         **OVHcloud**
         - [OVHcloud Academy](https://academy.ovhcloud.com/)
         - [Infrastructure Certifications](https://academy.ovhcloud.com/certification/)
@@ -91,12 +82,10 @@ def display_learning_resources():
         **Scaleway**
         - [Scaleway Training](https://www.scaleway.com/en/docs/)
         - [Infrastructure Basics](https://www.scaleway.com/en/docs/tutorials/)
-        """
-        )
+        """)
 
     with col2:
-        st.markdown(
-            """
+        st.markdown("""
         **European AI**
         - [Mistral AI Documentation](https://docs.mistral.ai/)
         - [Aleph Alpha Academy](https://www.aleph-alpha.com/academy)
@@ -104,14 +93,12 @@ def display_learning_resources():
         **Free Resources**
         - [OVHcloud Tutorials](https://docs.ovh.com/gb/en/tutorials/)
         - [Scaleway Documentation](https://www.scaleway.com/en/docs/)
-        """
-        )
+        """)
 
     # Additional Resources
     st.subheader("Additional Learning Resources")
 
-    st.markdown(
-        """
+    st.markdown("""
     **Multi-Cloud Learning**
     - [A Cloud Guru](https://acloudguru.com/) - Comprehensive cloud training
     - [Cloud Academy](https://cloudacademy.com/) - Multi-platform learning paths
@@ -128,8 +115,7 @@ def display_learning_resources():
     - [Cloud Security Alliance](https://cloudsecurityalliance.org/education/)
     - [GDPR Certification](https://gdpr.eu/certification/)
     - [ISO 27001 Training](https://www.iso.org/isoiec-27001-information-security.html)
-    """
-    )
+    """)
 
     # Comparison Tools
     st.subheader("Certification Comparison")

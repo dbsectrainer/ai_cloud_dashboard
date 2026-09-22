@@ -174,7 +174,7 @@ Note: The source files for these diagrams are available in DOT format under `doc
 
 ## 📚 Additional Resources
 
-- [Comprehensive Whitepaper](Global_Cloud_AI_Strategy_2025.md)
+- [Comprehensive Whitepaper](Global_Cloud_AI_Strategy_2026.md)
 - [Technical Documentation](docs/)
 - [API Reference](api-docs/)
 - [Contributing Guidelines](CONTRIBUTING.md)

@@ -90,40 +90,34 @@ def display_platform_comparisons():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown(
-            """
+        st.markdown("""
         **US Providers**
         - 🌟 Most comprehensive service offerings
         - 🌟 Advanced AI/ML capabilities
         - 🌟 Global infrastructure
         - 🌟 Enterprise-grade support
         - 🌟 Extensive documentation
-        """
-        )
+        """)
 
     with col2:
-        st.markdown(
-            """
+        st.markdown("""
         **EU Providers**
         - 🌟 GDPR compliance
         - 🌟 Data sovereignty
         - 🌟 Privacy-focused
         - 🌟 Regional expertise
         - 🌟 Regulatory alignment
-        """
-        )
+        """)
 
     with col3:
-        st.markdown(
-            """
+        st.markdown("""
         **China Providers**
         - 🌟 Cost-effective
         - 🌟 Asia-Pacific coverage
         - 🌟 Manufacturing focus
         - 🌟 IoT capabilities
         - 🌟 Local compliance
-        """
-        )
+        """)
 
     # Integration & Ecosystem
     st.subheader("Integration & Ecosystem")
@@ -148,8 +142,7 @@ def display_platform_comparisons():
     # Use Case Recommendations
     st.subheader("Best Fit Scenarios")
 
-    st.markdown(
-        """
+    st.markdown("""
     **US Providers Best For:**
     - Global enterprise deployments
     - Advanced AI/ML workloads
@@ -167,5 +160,4 @@ def display_platform_comparisons():
     - Manufacturing industry
     - Cost-sensitive workloads
     - IoT and edge computing in Asia
-    """
-    )
+    """)

@@ -1,12 +1,17 @@
 import streamlit as st
 from datetime import datetime
 
+try:
+    from data.market_data import DATA_AS_OF
+except ImportError:
+    from src.data.market_data import DATA_AS_OF
+
 
 def display_key_metrics(metrics_data):
     """Display key metrics in a row of columns with tooltips."""
     cols = st.columns(len(metrics_data))
     tooltips = {
-        "Global AI Market Size": "Total global market value for AI in 2025 (USD).",
+        "Global AI Market Size": f"Total global market value for AI, as of {DATA_AS_OF} (USD).",
         "Cloud Market Growth": "Year-over-year growth rate for the global cloud market.",
         "Active Providers": "Number of active cloud service providers worldwide.",
         "Avg. Compliance Score": "Average compliance score across all providers.",
@@ -40,6 +45,7 @@ def display_sidebar_navigation():
             "Performance Metrics",
             "Decision Helper",
             "Platform Comparisons",
+            "AI Model Comparison",
             "Learning Resources",
             "Future Trends",
         ],

@@ -8,17 +8,20 @@ from data.market_data import (
     get_growth_trends_data,
     get_regional_metrics,
     get_key_metrics,
+    DATA_AS_OF as MARKET_DATA_AS_OF,
 )
 from data.compliance_data import (
     get_compliance_matrix,
     get_security_certifications,
     get_data_residency_map,
+    DATA_AS_OF as COMPLIANCE_DATA_AS_OF,
 )
 from data.performance_data import (
     get_performance_metrics,
     get_sla_comparisons,
     get_cost_analysis,
     calculate_tco,
+    DATA_AS_OF as PERFORMANCE_DATA_AS_OF,
 )
 from visualizations.plots import (
     create_market_share_treemap,
@@ -45,9 +48,14 @@ from components.metrics import (
 )
 from components.decision_helper import display_decision_helper
 from components.platform_comparisons import display_platform_comparisons
+from components.ai_model_comparison import display_ai_model_comparison
 from components.learning_resources import display_learning_resources
 from components.future_trends import display_future_trends
-from utils.helpers import filter_data_by_regions, get_time_range_dates
+from utils.helpers import (
+    data_as_of_caption,
+    filter_data_by_regions,
+    get_time_range_dates,
+)
 
 # Set up Streamlit page configuration
 st.set_page_config(
@@ -98,8 +106,7 @@ def main():
                 file_name="market_data.csv",
             )
 
-        st.markdown(
-            """
+        st.markdown("""
         ## Strategic Intelligence Platform for Government & Enterprise
         
         This dashboard provides comprehensive insights into the global AI and cloud computing landscape, 
@@ -111,8 +118,7 @@ def main():
         - 💰 **Cost Analysis**: Compare pricing and calculate TCO across providers
         - ⚡ **Performance Metrics**: Track real-time performance and reliability metrics
         - 🤖 **Decision Support**: AI-powered recommendations for strategic planning
-        """
-        )
+        """)
 
         # --- AI Insights Panel ---
         st.markdown("---")
@@ -147,6 +153,7 @@ def main():
     # Market Intelligence Page
     elif page == "Market Intelligence":
         st.title("📊 Global Market Intelligence")
+        data_as_of_caption(MARKET_DATA_AS_OF)
         tab1, tab2, tab3 = st.tabs(
             ["Market Share", "Growth Trends", "Regional Analysis"]
         )
@@ -202,6 +209,7 @@ def main():
     # Security & Compliance Page
     elif page == "Security & Compliance":
         st.title("🛡️ Security & Compliance Dashboard")
+        data_as_of_caption(COMPLIANCE_DATA_AS_OF)
 
         # Get compliance and security data
         compliance_data = get_compliance_matrix()
@@ -272,6 +280,7 @@ def main():
     # Performance Metrics Page
     elif page == "Performance Metrics":
         st.title("⚡ Performance Metrics Dashboard")
+        data_as_of_caption(PERFORMANCE_DATA_AS_OF)
         performance_data = get_performance_metrics()
         sla_data = get_sla_comparisons()
         # Performance Overview
@@ -320,6 +329,10 @@ def main():
     # Platform Comparisons Page
     elif page == "Platform Comparisons":
         display_platform_comparisons()
+
+    # AI Model Comparison Page
+    elif page == "AI Model Comparison":
+        display_ai_model_comparison(user_role)
 
     # Learning Resources Page
     elif page == "Learning Resources":

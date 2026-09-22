@@ -8,14 +8,14 @@ import numpy as np
 def create_trend_forecast():
     """Create forecast visualization for key trends."""
     # Create yearly data points
-    years = ["2025", "2026", "2027", "2028", "2029"]
+    years = ["2026", "2027", "2028", "2029", "2030"]
 
     # Create market data dictionary
     market_data = {
         "Date": years,
-        "AI Market Size ($B)": [220, 310, 420, 580, 750],
-        "Cloud Market Size ($B)": [650, 840, 1100, 1400, 1800],
-        "Edge Computing ($B)": [85, 140, 230, 380, 600],
+        "AI Market Size ($B)": [310, 420, 580, 750, 960],
+        "Cloud Market Size ($B)": [840, 1100, 1400, 1800, 2250],
+        "Edge Computing ($B)": [140, 230, 380, 600, 930],
     }
 
     # Create DataFrame
@@ -39,7 +39,7 @@ def create_trend_forecast():
         )
 
     fig.update_layout(
-        title="Market Size Projections (2025-2029)",
+        title="Market Size Projections (2026-2030)",
         xaxis_title="Year",
         yaxis_title="Market Size (Billion USD)",
         hovermode="x unified",
@@ -61,8 +61,7 @@ def display_future_trends():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown(
-            """
+        st.markdown("""
         **Technology Trends**
         - 🧠 Advanced AI Models & Quantum Computing
         - 🌐 Edge Computing & 6G Integration
@@ -76,12 +75,10 @@ def display_future_trends():
         - 💰 New Pricing Models
         - 🤝 Strategic Partnerships
         - 🔄 Multi-Cloud Adoption
-        """
-        )
+        """)
 
     with col2:
-        st.markdown(
-            """
+        st.markdown("""
         **Regulatory Trends**
         - 📜 AI Regulation Evolution
         - 🔒 Data Sovereignty Laws
@@ -95,8 +92,7 @@ def display_future_trends():
         - 🏦 Financial Services Evolution
         - 🏛️ Government Modernization
         - 🎮 Digital Entertainment
-        """
-        )
+        """)
 
     # Regional Development
     st.subheader("Regional Development Forecast")
@@ -165,8 +161,7 @@ def display_future_trends():
     # Strategic Recommendations
     st.subheader("Strategic Recommendations")
 
-    st.markdown(
-        """
+    st.markdown("""
     **For Government Agencies:**
     1. 📋 Develop comprehensive AI/cloud governance frameworks
     2. 🔒 Strengthen cybersecurity and data protection measures
@@ -187,8 +182,7 @@ def display_future_trends():
     3. 🔐 Enhance security and compliance features
     4. 🌍 Build strong regional partnerships
     5. ♻️ Implement sustainable practices
-    """
-    )
+    """)
 
     # Risk Factors
     st.subheader("Key Risk Factors to Monitor")

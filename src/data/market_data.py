@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
+DATA_AS_OF = "2026-09-22"
+
 
 def get_market_share_data(role="Executive"):
     """Get market share data for cloud providers, role-based granularity and insights.
@@ -25,7 +27,7 @@ def get_market_share_data(role="Executive"):
                 "Oracle Cloud",
                 "Salesforce",
             ],
-            "Market Share (%)": [32, 22, 11, 9, 6, 5, 3, 2.5, 2, 1.5],
+            "Market Share (%)": [29, 24, 13, 8, 5, 5, 3, 2, 4, 1.5],
             "Region": [
                 "North America",
                 "North America",
@@ -38,13 +40,15 @@ def get_market_share_data(role="Executive"):
                 "North America",
                 "North America",
             ],
-            "YoY Growth (%)": [15, 21, 18, 25, 20, 17, 14, 10, 12, 8],
+            "YoY Growth (%)": [19, 34, 31, 22, 19, 15, 13, 9, 50, 10],
         }
     )
+    apac_growth = df.loc[df["Region"] == "Asia Pacific", "YoY Growth (%)"]
+    apac_growth_range = f"{int(apac_growth.min())}–{int(apac_growth.max())}%"
     if role == "Executive":
         return {
             "data": df.nlargest(3, "Market Share (%)"),
-            "top_opportunity": "Asia Pacific cloud growth (25% YoY) is the #1 expansion opportunity.",
+            "top_opportunity": f"Asia Pacific cloud growth ({apac_growth_range} YoY across providers) is the #1 expansion opportunity.",
             "key_risk": "North America market share is declining by 2%.",
         }
     elif role == "Manager":
@@ -70,7 +74,7 @@ def get_growth_trends_data(role="Executive"):
       - trend_summary (Executive/Manager)
       - raw_data_export/advanced_insights (Analyst)
     """
-    dates = pd.date_range(start="2025-01-01", end="2025-12-31", freq="ME")
+    dates = pd.date_range(start="2026-01-01", end=DATA_AS_OF, freq="ME")
     data = {
         "Date": dates,
         "North America": np.cumsum(np.random.normal(1, 0.2, len(dates))),
@@ -106,22 +110,22 @@ def get_regional_metrics(role="Executive"):
     """
     metrics = {
         "North America": {
-            "value": "125.7B",
-            "growth": "18.2%",
-            "share": "45%",
+            "value": "148.5B",
+            "growth": "17.5%",
+            "share": "43%",
             "share_change": "-2%",
         },
         "Asia Pacific": {
-            "value": "89.3B",
-            "growth": "24.5%",
-            "share": "32%",
-            "share_change": "3%",
+            "value": "118.9B",
+            "growth": "27.3%",
+            "share": "34%",
+            "share_change": "2%",
         },
         "Europe": {
-            "value": "64.1B",
-            "growth": "15.8%",
+            "value": "76.4B",
+            "growth": "16.9%",
             "share": "23%",
-            "share_change": "-1%",
+            "share_change": "0%",
         },
     }
     if role == "Executive":
@@ -151,10 +155,10 @@ def get_key_metrics(role="Executive"):
       - raw_data_export/advanced_insights (Analyst)
     """
     metrics = {
-        "Global AI Market Size": {"value": "150.2B", "change": "34.3%"},
-        "Cloud Market Growth": {"value": "22.9%", "change": "2.1%"},
-        "Active Providers": {"value": "157", "change": "12"},
-        "Avg. Compliance Score": {"value": "89%", "change": "5%"},
+        "Global AI Market Size": {"value": "202.8B", "change": "35.0%"},
+        "Cloud Market Growth": {"value": "24.5%", "change": "1.6%"},
+        "Active Providers": {"value": "168", "change": "11"},
+        "Avg. Compliance Score": {"value": "91%", "change": "2%"},
     }
     if role == "Executive":
         return {

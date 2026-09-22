@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
+DATA_AS_OF = "2026-09-22"
+
 
 def get_performance_metrics():
     """Get performance metrics for cloud providers."""
@@ -59,11 +61,11 @@ def get_cost_analysis():
     return pd.DataFrame(
         {
             "Service": services,
-            "AWS": [0.0464, 0.023, 0.09, 0.025, 0.12],
-            "Azure": [0.0478, 0.024, 0.087, 0.025, 0.125],
-            "GCP": [0.0456, 0.022, 0.085, 0.025, 0.118],
-            "Alibaba": [0.0432, 0.021, 0.081, 0.023, 0.11],
-            "Tencent": [0.0428, 0.020, 0.080, 0.022, 0.108],
+            "AWS": [0.0452, 0.021, 0.085, 0.025, 0.115],
+            "Azure": [0.0465, 0.022, 0.082, 0.025, 0.120],
+            "GCP": [0.0443, 0.020, 0.080, 0.025, 0.113],
+            "Alibaba": [0.0419, 0.019, 0.076, 0.023, 0.105],
+            "Tencent": [0.0415, 0.018, 0.075, 0.022, 0.103],
         }
     )
 

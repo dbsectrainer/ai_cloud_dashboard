@@ -2,6 +2,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 
+try:
+    from data.performance_data import DATA_AS_OF
+except ImportError:
+    from src.data.performance_data import DATA_AS_OF
+
 
 def create_performance_radar(performance_data):
     """Create radar chart for performance metrics by provider."""
@@ -43,7 +48,7 @@ def create_performance_radar(performance_data):
         showlegend=True,
         title="Performance Metrics by Provider",
         meta={
-            "aria-label": "Radar chart showing performance metrics by provider for 2025."
+            "aria-label": f"Radar chart showing performance metrics by provider, as of {DATA_AS_OF}."
         },
     )
 

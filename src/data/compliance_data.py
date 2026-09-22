@@ -1,6 +1,8 @@
 from datetime import datetime
 import pandas as pd
 
+DATA_AS_OF = "2026-09-22"
+
 
 def get_compliance_matrix():
     """Get compliance requirements matrix."""
@@ -35,13 +37,13 @@ def get_security_certifications():
                 ["ISO 27001", "SOC 2"],
                 ["ISO 27001", "SOC 2"],
             ],
-            "Risk Score": [95, 94, 93, 85, 84],
+            "Risk Score": [96, 95, 94, 86, 85],
             "Last Audit": [
-                datetime(2025, 1, 15),
-                datetime(2025, 1, 10),
-                datetime(2025, 1, 5),
-                datetime(2024, 12, 20),
-                datetime(2024, 12, 15),
+                datetime(2026, 9, 18),
+                datetime(2026, 9, 12),
+                datetime(2026, 9, 5),
+                datetime(2026, 8, 20),
+                datetime(2026, 8, 15),
             ],
         }
     )
