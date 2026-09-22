@@ -27,6 +27,7 @@ jobs:
         run: |
           pip install black
           black --check src/
-      - name: (Optional) Run tests
+      - name: Run tests
         run: |
-          echo "No test suite found. Add tests/ and update this step."
+          pip install -r requirements-dev.txt
+          pytest tests/ -v

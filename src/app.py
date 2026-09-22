@@ -45,6 +45,7 @@ from components.metrics import (
 )
 from components.decision_helper import display_decision_helper
 from components.platform_comparisons import display_platform_comparisons
+from components.ai_model_comparison import display_ai_model_comparison
 from components.learning_resources import display_learning_resources
 from components.future_trends import display_future_trends
 from utils.helpers import filter_data_by_regions, get_time_range_dates
@@ -98,8 +99,7 @@ def main():
                 file_name="market_data.csv",
             )
 
-        st.markdown(
-            """
+        st.markdown("""
         ## Strategic Intelligence Platform for Government & Enterprise
         
         This dashboard provides comprehensive insights into the global AI and cloud computing landscape, 
@@ -111,8 +111,7 @@ def main():
         - 💰 **Cost Analysis**: Compare pricing and calculate TCO across providers
         - ⚡ **Performance Metrics**: Track real-time performance and reliability metrics
         - 🤖 **Decision Support**: AI-powered recommendations for strategic planning
-        """
-        )
+        """)
 
         # --- AI Insights Panel ---
         st.markdown("---")
@@ -320,6 +319,10 @@ def main():
     # Platform Comparisons Page
     elif page == "Platform Comparisons":
         display_platform_comparisons()
+
+    # AI Model Comparison Page
+    elif page == "AI Model Comparison":
+        display_ai_model_comparison(user_role)
 
     # Learning Resources Page
     elif page == "Learning Resources":

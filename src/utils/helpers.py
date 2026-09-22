@@ -1,5 +1,11 @@
 from datetime import datetime
 import pandas as pd
+import streamlit as st
+
+
+def data_as_of_caption(date_str):
+    """Render a small caption showing the freshness of a data source."""
+    st.caption(f"📅 Data as of {date_str}")
 
 
 def format_currency(value):

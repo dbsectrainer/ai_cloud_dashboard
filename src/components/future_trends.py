@@ -8,14 +8,14 @@ import numpy as np
 def create_trend_forecast():
     """Create forecast visualization for key trends."""
     # Create yearly data points
-    years = ["2025", "2026", "2027", "2028", "2029"]
+    years = ["2026", "2027", "2028", "2029", "2030"]
 
     # Create market data dictionary
     market_data = {
         "Date": years,
-        "AI Market Size ($B)": [220, 310, 420, 580, 750],
-        "Cloud Market Size ($B)": [650, 840, 1100, 1400, 1800],
-        "Edge Computing ($B)": [85, 140, 230, 380, 600],
+        "AI Market Size ($B)": [310, 420, 580, 750, 960],
+        "Cloud Market Size ($B)": [840, 1100, 1400, 1800, 2250],
+        "Edge Computing ($B)": [140, 230, 380, 600, 930],
     }
 
     # Create DataFrame
@@ -39,7 +39,7 @@ def create_trend_forecast():
         )
 
     fig.update_layout(
-        title="Market Size Projections (2025-2029)",
+        title="Market Size Projections (2026-2030)",
         xaxis_title="Year",
         yaxis_title="Market Size (Billion USD)",
         hovermode="x unified",

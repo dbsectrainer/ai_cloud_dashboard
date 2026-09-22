@@ -1,220 +1,150 @@
 # Component Guide
 
-This guide provides detailed information about each component in the AI Cloud Dashboard.
+This guide provides detailed information about each component in the AI Cloud
+Dashboard. All components are plain functions — there are no classes, no
+processors, and no event system; `src/app.py` calls a `get_*` data function
+and passes the result to a `display_*`/`create_*` function per page.
 
 ## Market Intelligence
 
 ### Overview
-The Market Intelligence component provides real-time analysis of cloud market trends, competitor positioning, and growth opportunities.
-
-### Features
-- Market share analysis
-- Growth trend visualization
-- Regional market dynamics
-- Competitive landscape analysis
+The Market Intelligence page shows cloud market share, growth trends, and
+regional market data — all hardcoded in `src/data/market_data.py` and
+refreshed manually (see the module's `DATA_AS_OF` constant).
 
 ### Implementation
 ```python
-from src.components.metrics import MarketMetrics
-from src.data.market_data import MarketDataProcessor
+from src.data.market_data import (
+    get_market_share_data,
+    get_growth_trends_data,
+    get_regional_metrics,
+    get_key_metrics,
+)
+from src.visualizations.plots import (
+    create_market_share_treemap,
+    create_growth_trends_line,
+    create_provider_comparison_radar,
+)
 
-class MarketIntelligence:
-    def __init__(self):
-        self.metrics = MarketMetrics()
-        self.data_processor = MarketDataProcessor()
-
-    def analyze_market_share(self, region=None):
-        data = self.data_processor.get_market_data(region)
-        return self.metrics.calculate_market_share(data)
-
-    def analyze_growth_trends(self, timeframe="1Y"):
-        data = self.data_processor.get_historical_data(timeframe)
-        return self.metrics.calculate_growth_trends(data)
+market = get_market_share_data(role="Analyst")
+fig = create_market_share_treemap(market["data"])
 ```
 
 ## Security & Compliance
 
 ### Overview
-The Security & Compliance component tracks and manages security requirements, compliance standards, and certification timelines.
-
-### Features
-- Compliance requirement tracking
-- Security score monitoring
-- Certification timeline management
-- Data residency visualization
+Tracks compliance requirement coverage, security certifications, and data
+residency — hardcoded in `src/data/compliance_data.py`.
 
 ### Implementation
 ```python
-from src.components.metrics import SecurityMetrics
-from src.data.compliance_data import ComplianceDataProcessor
+from src.data.compliance_data import (
+    get_compliance_matrix,
+    get_security_certifications,
+    get_data_residency_map,
+)
+from src.visualizations.compliance_plots import (
+    create_compliance_heatmap,
+    create_security_score_gauge,
+    create_certification_timeline,
+)
 
-class SecurityCompliance:
-    def __init__(self):
-        self.metrics = SecurityMetrics()
-        self.compliance_processor = ComplianceDataProcessor()
-
-    def check_compliance_status(self, framework):
-        data = self.compliance_processor.get_compliance_data(framework)
-        return self.metrics.evaluate_compliance(data)
-
-    def monitor_security_score(self):
-        data = self.compliance_processor.get_security_metrics()
-        return self.metrics.calculate_security_score(data)
+certs = get_security_certifications()
+fig = create_certification_timeline(certs)
 ```
 
 ## Cost Analysis
 
 ### Overview
-The Cost Analysis component provides tools for understanding and optimizing cloud spending.
-
-### Features
-- TCO calculator
-- Provider cost comparisons
-- Budget optimization tools
-- Resource utilization tracking
+TCO calculator and provider cost comparisons, backed by
+`src/data/performance_data.py`.
 
 ### Implementation
 ```python
-from src.components.metrics import CostMetrics
-from src.data.market_data import CostDataProcessor
+from src.data.performance_data import get_cost_analysis, calculate_tco
+from src.visualizations.performance_plots import create_cost_comparison, create_tco_analysis
 
-class CostAnalysis:
-    def __init__(self):
-        self.metrics = CostMetrics()
-        self.cost_processor = CostDataProcessor()
-
-    def calculate_tco(self, resources, timeframe="3Y"):
-        data = self.cost_processor.get_cost_data(resources)
-        return self.metrics.calculate_total_cost(data, timeframe)
-
-    def optimize_budget(self, current_usage):
-        data = self.cost_processor.get_optimization_opportunities(current_usage)
-        return self.metrics.generate_optimization_recommendations(data)
+tco = calculate_tco({"compute": 1, "storage": 1, "network": 1, "support": 1})
+fig = create_tco_analysis(tco)
 ```
 
 ## Performance Metrics
 
 ### Overview
-The Performance Metrics component monitors and analyzes system performance across cloud services.
-
-### Features
-- Real-time performance monitoring
-- Global latency analysis
-- SLA compliance tracking
-- Resource efficiency metrics
+Latency, uptime, IOPS, throughput, and SLA comparisons across providers, from
+`src/data/performance_data.py`. Note: `get_performance_metrics()` generates
+values with `numpy.random` on every call, so figures change on each page
+reload — this is illustrative synthetic data, not a live feed.
 
 ### Implementation
 ```python
-from src.components.metrics import PerformanceMetrics
-from src.data.performance_data import PerformanceDataProcessor
+from src.data.performance_data import get_performance_metrics, get_sla_comparisons
+from src.visualizations.performance_plots import create_performance_radar, create_latency_heatmap
 
-class PerformanceMonitoring:
-    def __init__(self):
-        self.metrics = PerformanceMetrics()
-        self.performance_processor = PerformanceDataProcessor()
+perf = get_performance_metrics()
+fig = create_performance_radar(perf)
+```
 
-    def monitor_real_time_performance(self):
-        data = self.performance_processor.get_real_time_metrics()
-        return self.metrics.analyze_performance(data)
+## AI Model Comparison
 
-    def track_sla_compliance(self):
-        data = self.performance_processor.get_sla_data()
-        return self.metrics.evaluate_sla_compliance(data)
+### Overview
+Compares current frontier AI model families (Claude, GPT, Gemini, Llama,
+etc.) on capability tier, context window, pricing, and modality — added to
+track the fast-moving model ecosystem separately from cloud-provider
+comparisons.
+
+### Implementation
+```python
+from src.data.ai_model_data import get_ai_model_comparison
+from src.components.ai_model_comparison import display_ai_model_comparison
+
+models = get_ai_model_comparison(role="Analyst")
+display_ai_model_comparison(role="Analyst")  # renders the full page
 ```
 
 ## Strategic Tools
 
 ### Overview
-The Strategic Tools component provides AI-powered decision support and analysis tools.
-
-### Features
-- AI decision support
-- Platform comparison matrix
-- Learning resource center
-- Future trends forecasting
+`decision_helper.py`, `platform_comparisons.py`, `learning_resources.py`, and
+`future_trends.py` render standalone pages with hardcoded comparison tables,
+scoring logic, and forecast charts — each exposes a single
+`display_*()` function called directly from `src/app.py`'s page router.
 
 ### Implementation
 ```python
-from src.components.decision_helper import DecisionHelper
-from src.components.platform_comparisons import PlatformComparator
+from src.components.decision_helper import display_decision_helper
+from src.components.platform_comparisons import display_platform_comparisons
 
-class StrategicTools:
-    def __init__(self):
-        self.decision_helper = DecisionHelper()
-        self.platform_comparator = PlatformComparator()
-
-    def get_platform_recommendations(self, requirements):
-        comparison = self.platform_comparator.compare_platforms(requirements)
-        return self.decision_helper.generate_recommendations(comparison)
-
-    def forecast_trends(self, data_points):
-        return self.decision_helper.analyze_future_trends(data_points)
+display_platform_comparisons()  # renders the full page
 ```
 
 ## Component Integration
 
-### Event System
-Components communicate through an event system for real-time updates:
-
-```python
-from src.utils.event_system import EventSystem
-
-class ComponentManager:
-    def __init__(self):
-        self.event_system = EventSystem()
-
-    def register_component(self, component, events):
-        for event in events:
-            self.event_system.subscribe(event, component.handle_event)
-
-    def notify_components(self, event, data):
-        self.event_system.publish(event, data)
-```
+Components are wired together directly in `src/app.py`'s `main()` function
+via an `if page == "...": display_...()` chain driven by the sidebar radio
+selection (`src/components/metrics.py: display_sidebar_navigation()`). There
+is no event bus, pub/sub system, or inter-component messaging.
 
 ### Data Flow
-Components follow a standardized data flow pattern:
-
-1. Data Collection
-2. Processing
-3. Analysis
-4. Visualization
-5. User Interaction
+1. `src/app.py` reads the selected page and user role from the sidebar
+2. It calls the matching `get_*` function(s) in `src/data/`
+3. The result is optionally filtered (`src/utils/helpers.py`) and passed to a
+   `create_*` visualization function or a `display_*` component function
+4. Streamlit renders the returned chart/table/markdown
 
 ## Best Practices
 
 ### Component Development
-1. Follow single responsibility principle
-2. Implement proper error handling
-3. Include comprehensive logging
-4. Write unit tests for all features
-5. Document public APIs
-
-### Performance Optimization
-1. Use caching for frequent operations
-2. Implement lazy loading where appropriate
-3. Optimize database queries
-4. Use asynchronous operations for I/O
-5. Monitor component performance
-
-## Troubleshooting
-
-Common component issues and solutions:
-
-1. **Performance Issues**
-   - Check cache configuration
-   - Monitor memory usage
-   - Review database queries
-   - Profile component methods
-
-2. **Integration Issues**
-   - Verify event subscriptions
-   - Check data format compatibility
-   - Review component dependencies
-   - Monitor error logs
+1. Keep each page's logic in a single `display_*()` function
+2. Keep data literals in `src/data/`, not inline in components, so they're
+   easy to find and refresh
+3. Follow the existing `{"data": df, ...role keys...}` return pattern in
+   `src/data/*.py` for any new role-based data source
+4. Write a schema/shape test in `tests/` for any new data function
 
 ## Additional Resources
 
-- [API Documentation](../api-docs/index.md)
-- [Performance Tuning](performance.md)
-- [Testing Guide](testing.md)
-- [Development Guidelines](development.md)
+- [Architecture Overview](architecture.md)
+- [Data Processing Guide](data-processing.md)
+- [Developer Roadmap](DEVELOPER_ROADMAP_2026.md)
+- [Contributing Guidelines](../CONTRIBUTING.md)

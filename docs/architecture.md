@@ -18,18 +18,21 @@ ai-cloud-dashboard/
 │   │   ├── metrics.py         # Performance and analytics metrics
 │   │   ├── decision_helper.py # AI-powered decision support
 │   │   ├── platform_comparisons.py # Cloud platform comparison tools
+│   │   ├── ai_model_comparison.py  # Frontier AI model comparison
 │   │   ├── learning_resources.py   # Educational resources
 │   │   └── future_trends.py   # Trend analysis and forecasting
 │   ├── data/                  # Data processing modules
 │   │   ├── market_data.py     # Market intelligence data
 │   │   ├── compliance_data.py # Security and compliance data
-│   │   └── performance_data.py # Performance metrics data
+│   │   ├── performance_data.py # Performance metrics data
+│   │   └── ai_model_data.py   # Frontier AI model comparison data
 │   ├── utils/                 # Helper functions
 │   │   └── helpers.py         # Utility functions
 │   └── visualizations/        # Visualization components
 │       ├── plots.py           # Core plotting functions
 │       ├── compliance_plots.py # Compliance visualization
-│       └── performance_plots.py # Performance visualization
+│       ├── performance_plots.py # Performance visualization
+│       └── ai_model_plots.py  # AI model comparison visualization
 ```
 
 ## Component Architecture
@@ -38,13 +41,15 @@ ai-cloud-dashboard/
 - Built with Streamlit for rapid development and deployment
 - Responsive design for various screen sizes
 - Component-based structure for modularity
-- Real-time data updates and visualization
+- Sidebar-driven page routing (`src/app.py`), no client-side framework
 
 ### Data Processing Layer
-- Python-based data processing pipeline
-- Pandas and NumPy for efficient data manipulation
-- Modular design for easy extension
-- Caching mechanisms for performance optimization
+- Each `src/data/*.py` module exposes plain functions that build and return
+  `pandas.DataFrame`s (or dicts) from hardcoded Python literals
+- A handful of values (e.g. growth-trend series) are randomized with `numpy`
+  for illustrative variance
+- No database, cache, or external API call is involved — data is static
+  until the source file is edited
 
 ### Visualization Layer
 - Plotly for interactive visualizations
@@ -55,10 +60,15 @@ ai-cloud-dashboard/
 ## Key Components
 
 ### Market Intelligence Module
-- Real-time market data processing
+- Hardcoded market-share, growth-trend, and regional data, refreshed manually
 - Competitive analysis tools
 - Growth trend analysis
 - Regional market insights
+
+### AI Model Comparison Module
+- Hardcoded comparison of current frontier AI model families (capability
+  tier, context window, pricing, modality) via `src/data/ai_model_data.py`
+- Pricing/context scatter, capability radar, and pricing bar visualizations
 
 ### Security & Compliance Module
 - Compliance tracking system
@@ -86,57 +96,35 @@ ai-cloud-dashboard/
 
 ## Data Flow
 
-1. **Data Ingestion**
-   - Real-time data streams
-   - Batch processing
-   - API integrations
-   - User inputs
+1. **Data Definition**
+   - Hardcoded literals in `src/data/*.py`, some randomized via `numpy` for
+     illustrative variance
+   - Refreshed manually by editing the source module (see the `DATA_AS_OF`
+     constant in each data module)
 
-2. **Data Processing**
-   - Cleaning and validation
-   - Transformation
-   - Analysis
-   - Aggregation
+2. **Data Handling**
+   - `src/app.py` calls a `get_*` function per page, optionally filters by
+     role/region via `src/utils/helpers.py`
 
 3. **Data Visualization**
-   - Interactive charts
-   - Real-time updates
-   - Custom visualizations
-   - Export capabilities
+   - The resulting DataFrame/dict is passed to a `create_*` function in
+     `src/visualizations/*.py` and rendered via `st.plotly_chart`
 
 ## Performance Considerations
 
-### Caching Strategy
-- In-memory caching for frequent queries
-- Disk caching for large datasets
-- Cache invalidation policies
-- Performance monitoring
-
-### Scalability
-- Horizontal scaling capabilities
-- Load balancing
-- Resource optimization
-- Performance metrics
+This app has no caching layer, database, or scaling concerns beyond a
+single-process Streamlit dev server — data is built fresh on each script
+rerun from in-memory Python literals.
 
 ### Security
-- Data encryption
-- Access control
-- Audit logging
-- Compliance monitoring
+- No user data is collected or stored; the "Export My Data" button in the
+  sidebar is a placeholder and does not perform an export
 
 ## Integration Points
 
-### External APIs
-- Cloud provider APIs
-- Market data sources
-- Security services
-- Analytics platforms
-
-### Internal Systems
-- Authentication system
-- Data storage
-- Caching layer
-- Monitoring system
+There are no external API integrations, authentication system, data storage,
+caching layer, or monitoring system in this codebase today. Every page's
+data comes from a function in `src/data/`.
 
 ## Development Workflow
 
@@ -152,29 +140,23 @@ ai-cloud-dashboard/
    - Deployment procedures
    - Monitoring setup
 
-## Future Considerations
+## Potential Future Enhancements (not yet implemented)
 
-- Machine learning integration
-- Advanced analytics capabilities
-- Additional cloud provider support
+- Live data integration for at least one data source (e.g. cloud pricing)
+- Data-freshness checks/tests so refreshes don't silently go stale
+- Additional cloud provider and AI model coverage
 - Enhanced visualization options
-- Improved performance optimization
-- Extended API capabilities
 
 ## Technical Requirements
 
 ### Software Requirements
-- Python 3.8+
-- Streamlit
-- Pandas
-- NumPy
-- Plotly
+- Python 3.12 (see `requirements.txt` for exact floors)
+- Streamlit, pandas, NumPy, Plotly
 
 ### Hardware Requirements
 - Minimum 4GB RAM
 - 2 CPU cores
-- 10GB storage
-- Network connectivity
+- No GPU or database required
 
 ## Maintenance and Support
 

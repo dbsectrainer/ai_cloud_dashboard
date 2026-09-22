@@ -2,6 +2,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 
+try:
+    from data.compliance_data import DATA_AS_OF
+except ImportError:
+    from src.data.compliance_data import DATA_AS_OF
+
 
 def create_compliance_heatmap(compliance_data):
     """Create heatmap visualization for compliance matrix."""
@@ -20,7 +25,7 @@ def create_compliance_heatmap(compliance_data):
         title="Compliance Requirements Coverage",
         labels={"color": "Compliance Level"},
         meta={
-            "aria-label": "Heatmap showing compliance requirements coverage for US, EU, and China cloud providers in 2025."
+            "aria-label": f"Heatmap showing compliance requirements coverage for US, EU, and China cloud providers, as of {DATA_AS_OF}."
         },
     )
 
@@ -152,5 +157,5 @@ def create_certification_timeline(security_data):
 
 # In app.py or component, after displaying the chart:
 # st.plotly_chart(fig, use_container_width=True)
-# st.download_button("Download Chart as PNG", fig.to_image(format="png"), file_name="compliance_coverage_2025.png")
-# st.download_button("Download Data as CSV", compliance_data.to_csv(index=False), file_name="compliance_coverage_2025.csv")
+# st.download_button("Download Chart as PNG", fig.to_image(format="png"), file_name="compliance_coverage.png")
+# st.download_button("Download Data as CSV", compliance_data.to_csv(index=False), file_name="compliance_coverage.csv")

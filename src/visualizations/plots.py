@@ -2,6 +2,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
 
+try:
+    from data.market_data import DATA_AS_OF
+except ImportError:
+    from src.data.market_data import DATA_AS_OF
+
 
 def create_market_share_treemap(market_data):
     """Create treemap visualization for market share data (colorblind-friendly, accessible)."""
@@ -27,7 +32,7 @@ def create_market_share_treemap(market_data):
         color="YoY Growth (%)",
         color_continuous_scale="Viridis",
         custom_data=["Hover_Text"],
-        title="Global Cloud Market Share and Growth (2025)",
+        title=f"Global Cloud Market Share and Growth (as of {DATA_AS_OF})",
     )
 
     # Update hover template to show custom hover text
@@ -41,11 +46,11 @@ def create_market_share_treemap(market_data):
         coloraxis_colorbar_title="YoY Growth (%)",
         # Accessibility: Add ARIA label for screen readers (Streamlit will render as HTML)
         title={
-            "text": "Global Cloud Market Share and Growth (2025)",
+            "text": f"Global Cloud Market Share and Growth (as of {DATA_AS_OF})",
             "font": {"size": 20},
         },
         meta={
-            "aria-label": "Treemap showing global cloud market share and YoY growth by provider and region for 2025."
+            "aria-label": f"Treemap showing global cloud market share and YoY growth by provider and region, as of {DATA_AS_OF}."
         },
     )
     fig.update_traces(
@@ -113,5 +118,5 @@ def create_provider_comparison_radar(market_data):
 
 # In app.py or component, after displaying the chart:
 # st.plotly_chart(fig, use_container_width=True)
-# st.download_button("Download Chart as PNG", fig.to_image(format="png"), file_name="market_share_2025.png")
-# st.download_button("Download Data as CSV", market_data.to_csv(index=False), file_name="market_share_2025.csv")
+# st.download_button("Download Chart as PNG", fig.to_image(format="png"), file_name="market_share.png")
+# st.download_button("Download Data as CSV", market_data.to_csv(index=False), file_name="market_share.csv")
